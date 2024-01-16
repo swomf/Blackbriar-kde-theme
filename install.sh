@@ -21,11 +21,7 @@ else
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
 fi
 
-THEME_NAME=Graphite
-THEME_VARIANTS=('' '-nord')
-COLOR_VARIANTS=('-light' '-dark')
-
-rimless=
+THEME_NAME=Blackbriar
 
 # COLORS
 CDEF=" \033[0m"                                     # default color
@@ -71,20 +67,14 @@ EOF
 }
 
 install() {
-  local name=${1}
-  local theme=${2}
-  local color=${3}
+  local name=$THEME_NAME
 
-  [[ ${color} == '-dark' ]] && local ELSE_COLOR='Dark'
-  [[ ${color} == '-light' ]] && local ELSE_COLOR='Light'
-  [[ ${theme} == '-nord' ]] && local ELSE_THEME='Nord'
-
-  local AURORAE_THEME="${AURORAE_DIR}/${name}${color}"{'','-round'}
-  local PLASMA_THEME="${PLASMA_DIR}/${name}${theme}${color}"
-  local LOOKFEEL_THEME="${LOOKFEEL_DIR}/com.github.vinceliuice.${name}${theme}${color}"
-  local SCHEMES_THEME="${SCHEMES_DIR}/${name}${ELSE_COLOR}${ELSE_THEME}.colors"
-  local KVANTUM_THEME="${KVANTUM_DIR}/${name}${ELSE_THEME}"
-  local WALLPAPER_THEME="${WALLPAPER_DIR}/${name}${theme}${color}"
+  local AURORAE_THEME="${AURORAE_DIR}/${name}"
+  local PLASMA_THEME="${PLASMA_DIR}/${name}"
+  local LOOKFEEL_THEME="${LOOKFEEL_DIR}/com.github.swomf.${name}"
+  local SCHEMES_THEME="${SCHEMES_DIR}/${name}.colors"
+  local KVANTUM_THEME="${KVANTUM_DIR}/${name}"
+  local WALLPAPER_THEME="${WALLPAPER_DIR}/${name}"
 
   mkdir -p                                                                                   ${AURORAE_DIR}
   mkdir -p                                                                                   ${SCHEMES_DIR}
@@ -99,117 +89,20 @@ install() {
   [[ -f ${SCHEMES_THEME} ]] && rm -rf ${SCHEMES_THEME}
   [[ -d ${KVANTUM_THEME} ]] && rm -rf ${KVANTUM_THEME}
   [[ -d ${WALLPAPER_THEME} ]] && rm -rf ${WALLPAPER_THEME}
-  [[ -d ${WALLPAPER_DIR}/${name}${theme} ]] && rm -rf ${WALLPAPER_DIR}/${name}${theme}
+  [[ -d ${WALLPAPER_DIR}/${name} ]] && rm -rf ${WALLPAPER_DIR}/${name}
 
-  cp -r ${SRC_DIR}/aurorae/${name}${color}{'','-round'}                                      ${AURORAE_DIR}
+  cp -r ${SRC_DIR}/aurorae/${name}                                      ${AURORAE_DIR}
 
-  if [[ "${rimless}" == 'true' ]]; then
-    cp -r ${SRC_DIR}/aurorae/${name}${color}-rimless/*                                       ${AURORAE_DIR}/${name}${color}
-    cp -r ${SRC_DIR}/aurorae/${name}${color}-round-rimless/*                                 ${AURORAE_DIR}/${name}${color}-round
-  fi
-
-  cp -r ${SRC_DIR}/color-schemes/${name}${ELSE_THEME}${ELSE_COLOR}.colors                    ${SCHEMES_DIR}
-  cp -r ${SRC_DIR}/Kvantum/${name}${ELSE_THEME}                                              ${KVANTUM_DIR}
-
-  if [[ "${rimless}" == 'true' ]]; then
-    cp -r ${SRC_DIR}/Kvantum/${name}${ELSE_THEME}-rimless                                    ${KVANTUM_DIR}
-  fi
+  cp -r ${SRC_DIR}/color-schemes/${name}.colors                    ${SCHEMES_DIR}
+  cp -r ${SRC_DIR}/Kvantum/${name}                                              ${KVANTUM_DIR}
 
   cp -r ${SRC_DIR}/plasma/desktoptheme/${name}                                               ${PLASMA_DIR}
   cp -r ${SRC_DIR}/plasma/desktoptheme/${name}                                               ${PLASMA_THEME}
 
-  if [[ "${rimless}" == 'true' ]]; then
-    cp -r ${SRC_DIR}/plasma/desktoptheme/${name}-rimless/*                                   ${PLASMA_THEME}
-  fi
-
-  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}${theme}${color}/*                             ${PLASMA_THEME}
-  cp -r ${SRC_DIR}/color-schemes/${name}${ELSE_THEME}${ELSE_COLOR}.colors                    ${PLASMA_THEME}/colors
-  cp -r ${SRC_DIR}/plasma/look-and-feel/com.github.vinceliuice.${name}                       ${LOOKFEEL_DIR}
-  cp -r ${SRC_DIR}/plasma/look-and-feel/com.github.vinceliuice.${name}${theme}${color}       ${LOOKFEEL_DIR}
-  cp -r ${SRC_DIR}/wallpaper/${name}${theme}${color}                                         ${WALLPAPER_DIR}
-  cp -r ${SRC_DIR}/wallpaper/${name}${theme}                                                 ${WALLPAPER_DIR}
+  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}/*                             ${PLASMA_THEME}
+  cp -r ${SRC_DIR}/color-schemes/${name}.colors                    ${PLASMA_THEME}/colors
+  cp -r ${SRC_DIR}/plasma/look-and-feel/com.github.swomf.${name}                       ${LOOKFEEL_DIR}
+  cp -r ${SRC_DIR}/wallpaper/${name}                                                 ${WALLPAPER_DIR}
 }
 
-while [[ "$#" -gt 0 ]]; do
-  case "${1:-}" in
-    -n|--name)
-      name="${1}"
-      shift
-      ;;
-    --rimless)
-      rimless='true'
-      prompt -i "Install rimless version."
-      shift
-      ;;
-    -t|--theme)
-      shift
-      for theme in "$@"; do
-        case "$theme" in
-          default)
-            themes+=("${THEME_VARIANTS[0]}")
-            shift
-            ;;
-          nord)
-            themes+=("${THEME_VARIANTS[1]}")
-            shift
-            ;;
-          -*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized theme variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-        prompt -w "${theme} version"
-      done
-      ;;
-    -c|--color)
-      shift
-      for variant in "$@"; do
-        case "$variant" in
-          standard)
-            colors+=("${COLOR_VARIANTS[0]}")
-            shift
-            ;;
-          light)
-            colors+=("${COLOR_VARIANTS[1]}")
-            shift
-            ;;
-          dark)
-            colors+=("${COLOR_VARIANTS[2]}")
-            shift
-            ;;
-          -*)
-            break
-            ;;
-          *)
-            prompt -e "ERROR: Unrecognized color variant '$1'."
-            prompt -i "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        esac
-      done
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      prompt -e "ERROR: Unrecognized installation option '$1'."
-      prompt -i "Try '$0 --help' for more information."
-      exit 1
-      ;;
-  esac
-done
-
-prompt -w "Installing '${THEME_NAME} kde themes'..."
-
-for theme in "${themes[@]:-${THEME_VARIANTS[@]}}"; do
-  for color in "${colors[@]:-${COLOR_VARIANTS[@]}}"; do
-    install "${name:-${THEME_NAME}}" "${theme}" "${color}"
-  done
-done
-
-prompt -s "Install finished..."
+install
