@@ -15,7 +15,7 @@ library=org.kde.kwin.aurorae
 theme=__aurorae__svg__Blackbriar
 
 [kcminputrc][Mouse]
-cursorTheme=Qogir
+cursorTheme=Blackbriar
 
 [kwinrc][TabBox]
 LayoutName=thumbnail_grid
