@@ -14,6 +14,7 @@ In this repository you'll find:
 - Plasma Desktop Themes
 - Plasma Global Themes
 - Wallpapers
+- Icons
 
 ## Installation
 
@@ -44,7 +45,6 @@ Uninstall for current user
 ### For recommended additions, use these.
 
 - Use [Blackbriar GTK theme](https://github.com/swomf/Blackbriar-gtk-theme)
-- Use [Qogir cursors](https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors)
   and [ePapirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) icons.
 - [Kvantum engine](https://github.com/tsujan/Kvantum/tree/master/Kvantum)
   provides `kvantummanager`. I don't use it; this is here for posterity.
@@ -53,7 +53,8 @@ Uninstall for current user
 
 GNU GPL v3
 
-**Assets taken from:**
-- [Graphite-gtk-theme](https://github.com/vinceliuice/Graphite-gtk-theme)
-- [Materia KDE](https://github.com/PapirusDevelopmentTeam/materia-kde)
-- Wallpaper is from an unknown source. Raise an issue if found.
+**Assets taken from the following (GPLv3):**
+- Main theme: [Graphite-gtk-theme](https://github.com/vinceliuice/Graphite-gtk-theme)
+- Some icons: [Materia KDE](https://github.com/PapirusDevelopmentTeam/materia-kde)
+- Cursors: [Qogir](https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors)
+- Wallpaper: unknown source. Raise an issue if found.

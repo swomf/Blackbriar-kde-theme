@@ -13,6 +13,7 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   LOOKFEEL_DIR="/usr/share/plasma/look-and-feel"
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
+  ICON_DIR="/usr/share/icons"
 else
   AURORAE_DIR="$HOME/.local/share/aurorae/themes"
   SCHEMES_DIR="$HOME/.local/share/color-schemes"
@@ -20,6 +21,7 @@ else
   LOOKFEEL_DIR="$HOME/.local/share/plasma/look-and-feel"
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
+  ICON_DIR="$HOME/.local/share/icons"
 fi
 
 # COLORS
@@ -45,6 +47,7 @@ installer() {
   local SCHEMES_THEME="${SCHEMES_DIR}/${name}.colors"
   local KVANTUM_THEME="${KVANTUM_DIR}/${name}"
   local WALLPAPER_THEME="${WALLPAPER_DIR}/${name}"
+  local ICON_THEME="${ICON_DIR}/${name}"
 
   mkdir -p                                                                                   ${AURORAE_DIR}
   mkdir -p                                                                                   ${SCHEMES_DIR}
@@ -52,6 +55,7 @@ installer() {
   mkdir -p                                                                                   ${LOOKFEEL_DIR}
   mkdir -p                                                                                   ${KVANTUM_DIR}
   mkdir -p                                                                                   ${WALLPAPER_DIR}
+  mkdir -p                                                                                   ${ICON_DIR}
 
   [[ -d ${AURORAE_THEME} ]] && rm -rf ${AURORAE_THEME}
   [[ -d ${PLASMA_THEME} ]] && rm -rf ${PLASMA_THEME}
@@ -60,6 +64,7 @@ installer() {
   [[ -d ${KVANTUM_THEME} ]] && rm -rf ${KVANTUM_THEME}
   [[ -d ${WALLPAPER_THEME} ]] && rm -rf ${WALLPAPER_THEME}
   [[ -d ${WALLPAPER_DIR}/${name} ]] && rm -rf ${WALLPAPER_DIR}/${name}
+  [[ -d ${ICON_DIR}/${name} ]] && rm -rf ${ICON_DIR}/${name}
 
   if [[ $action == "uninstall" ]]; then
     echo -e "${b_CGSC}Uninstalled.${CDEF}"
@@ -67,17 +72,16 @@ installer() {
   fi
 
   cp -r ${SRC_DIR}/aurorae/${name}                                                           ${AURORAE_DIR}
-
+  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}                                               ${PLASMA_DIR}
+  cp -r ${SRC_DIR}/plasma/look-and-feel/com.github.swomf.${name}                             ${LOOKFEEL_DIR}
+  cp -r ${SRC_DIR}/color-schemes/${name}.colors                                              ${PLASMA_THEME}/colors
   cp -r ${SRC_DIR}/color-schemes/${name}.colors                                              ${SCHEMES_DIR}
   cp -r ${SRC_DIR}/Kvantum/${name}                                                           ${KVANTUM_DIR}
-
-  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}                                               ${PLASMA_DIR}
-  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}                                               ${PLASMA_THEME}
-
-  cp -r ${SRC_DIR}/plasma/desktoptheme/${name}/*                                             ${PLASMA_THEME}
-  cp -r ${SRC_DIR}/color-schemes/${name}.colors                                              ${PLASMA_THEME}/colors
-  cp -r ${SRC_DIR}/plasma/look-and-feel/com.github.swomf.${name}                             ${LOOKFEEL_DIR}
   cp -r ${SRC_DIR}/wallpaper/${name}                                                         ${WALLPAPER_DIR}
+  cp -r ${SRC_DIR}/icons/${name}                                                             ${ICON_DIR}
+
+
+
 
   echo -e "${b_CGSC}Installed.${CDEF}"
 }
