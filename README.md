@@ -45,7 +45,7 @@ Uninstall for current user
 ### For recommended additions, use these.
 
 - Use [Blackbriar GTK theme](https://github.com/swomf/Blackbriar-gtk-theme)
-  and [ePapirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) icons.
+  and [Papirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) icons.
 - [Kvantum engine](https://github.com/tsujan/Kvantum/tree/master/Kvantum)
   provides `kvantummanager`. I don't use it; this is here for posterity.
 
