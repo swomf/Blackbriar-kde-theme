@@ -5,7 +5,7 @@ widgetStyle=kvantum-dark
 ColorScheme=Blackbriar
 
 [kdeglobals][Icons]
-Theme=ePapirus-Dark
+Theme=Papirus-Dark
 
 [plasmarc][Theme]
 name=Blackbriar
@@ -16,6 +16,3 @@ theme=__aurorae__svg__Blackbriar
 
 [kcminputrc][Mouse]
 cursorTheme=Blackbriar
-
-[kwinrc][TabBox]
-LayoutName=thumbnail_grid
