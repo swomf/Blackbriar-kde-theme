@@ -3,11 +3,11 @@ Name=Blackbriar
 X-KDE-PluginInfo-Author=swomf
 X-KDE-PluginInfo-Email=swomf@proton.me
 X-KDE-PluginInfo-Name=Blackbriar
-X-KDE-PluginInfo-Version=
-X-KDE-PluginInfo-Website=
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-Website=https://github.com/swomf/Blackbriar-kde-theme
 X-KDE-PluginInfo-Category=
 X-KDE-PluginInfo-Depends=
-X-KDE-PluginInfo-License=LGPL
+X-KDE-PluginInfo-License=GPL-3.0-or-later
 X-KDE-PluginInfo-EnabledByDefault=true
 
 [ContrastEffect]
