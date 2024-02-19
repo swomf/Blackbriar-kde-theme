@@ -1,8 +1,8 @@
-
-Graphite sddm theme for KDE Plasma desktop.
+# Blackbriar SDDM theme
 
 ## Installation
 
+```sh
 sudo ./install.sh
-
+```
 
