@@ -80,8 +80,15 @@ installer() {
   cp -r ${SRC_DIR}/wallpaper/${name}                                                         ${WALLPAPER_DIR}
   cp -r ${SRC_DIR}/icons/${name}                                                             ${ICON_DIR}
 
+  # No splash screen
+  kwriteconfig5 --file ksplashrc --group KSplash --key Engine none &>/dev/null
+  kwriteconfig5 --file ksplashrc --group KSplash --key Theme none &>/dev/null
 
+  # Thumbnail grid window switcher
+  kwriteconfig5 --file kwinrc    --group TabBox  --key LayoutName thumbnail_grid &>/dev/null
 
+  # Equip theme. Must do this AFTER file entry overwrites
+  lookandfeeltool -a com.github.swomf.${name} &>/dev/null
 
   echo -e "${b_CGSC}Installed.${CDEF}"
 }
