@@ -4,7 +4,7 @@
 
 declare -A testing_commands
 testing_commands=(
-  ["lockscreen"]="/usr/lib/kscreenlocker_greet --testing --theme plasma/look-and-feel/com.github.swomf.Blackbriar"
+  ["lockscreen"]="/usr/lib/kscreenlocker_greet --testing --theme $(pwd)/plasma/look-and-feel/com.github.swomf.Blackbriar"
   ["sddm"]="/usr/bin/sddm-greeter --test-mode --theme sddm/Blackbriar"
 )
 
@@ -48,4 +48,4 @@ fi
 
 # run command
 echo -e "${b_CCIN}:: ${b_CDEF}Testing ${CCIN}${ITALIC}${selected_command}${b_CDEF}...${CDEF}"
-${testing_commands[$selected_command]}
+echo ${testing_commands[$selected_command]} | bash
