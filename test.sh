@@ -37,8 +37,8 @@ if [ -z $1 ]; then
 else
   # best guess
   selected_command=$(printf "%s\n" "${!testing_commands[@]}" | grep -i $1)
-  echo -en "\e${b_CCIN}:: ${b_CDEF}Press enter to test ${CCIN}${ITALIC}${selected_command}${b_CDEF}.${CDEF} \e[0m"
-  read -rsn1
+  printf "${b_CCIN}:: ${b_CDEF}Press enter to test ${CCIN}${ITALIC}${selected_command}${b_CDEF}.${CDEF} "
+  read
 fi
 
 # command must exist
@@ -47,5 +47,5 @@ if [ -z "$selected_command" ]; then
 fi
 
 # run command
-echo -en "\r\033[K${b_CCIN}:: ${b_CDEF}Testing ${CCIN}${ITALIC}${selected_command}${b_CDEF}.${CDEF}\n"
+echo -e "${b_CCIN}:: ${b_CDEF}Testing ${CCIN}${ITALIC}${selected_command}${b_CDEF}...${CDEF}"
 ${testing_commands[$selected_command]}
