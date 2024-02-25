@@ -1,59 +1,51 @@
-# Constants for testing. This may change between systems.
+#!/bin/bash
+# You may need to change the following based on the location of testing binaries
+# on your system. e.g. kscreenlocker_greet might be in /usr/lib64/libexec
 
-test_lockscreen="/usr/lib/kscreenlocker_greet --testing --theme plasma/look-and-feel/com.github.swomf.Blackbriar"
-test_sddm="sddm-greeter --test-mode --theme sddm/Blackbriar"
+declare -A testing_commands
+testing_commands=(
+  ["lockscreen"]="/usr/lib/kscreenlocker_greet --testing --theme plasma/look-and-feel/com.github.swomf.Blackbriar"
+  ["sddm"]="/usr/bin/sddm-greeter --test-mode --theme sddm/Blackbriar"
+)
 
-# COLORS
-CDEF="\033[0m"                                     # default color
-CCIN="\033[0;36m"                                  # info color
-CGSC="\033[0;32m"                                  # success color
-CRER="\033[0;31m"                                  # error color
-CWAR="\033[0;33m"                                  # warning color
-b_CDEF="\033[1;37m"                                # bold default color
-b_CCIN="\033[1;36m"                                # bold info color
-b_CGSC="\033[1;32m"                                # bold success color
-b_CRER="\033[1;31m"                                # bold error color
-b_CWAR="\033[1;33m"                                # bold warning color
+# color constants
+CDEF="\033[0m"                               # default color
+CCIN="\033[0;36m"                            # info color
+CGSC="\033[0;32m"                            # success color
+CRER="\033[0;31m"                            # error color
+CWAR="\033[0;33m"                            # warning color
+b_CDEF="\033[1;37m"                          # bold default color
+b_CCIN="\033[1;36m"                          # bold info color
+b_CGSC="\033[1;32m"                          # bold success color
+b_CRER="\033[1;31m"                          # bold error color
+b_CWAR="\033[1;33m"                          # bold warning color
+ITALIC="\033[3m"                             # italic
 
-usage() {
-  echo -e "$(cat << EOF
-${b_CDEF}USAGE:${CDEF} ./test.sh [component]
-Test a QML KDE theme component.
+# dep check
+if [ ! command -v fzf &> /dev/null ]; then
+  echo "This script requires fzf."
+  exit 1
+fi
 
-${b_CDEF}EXAMPLES${CDEF}
-  ./test.sh l           # test lockscreen component
-  ./test.sh sddm        # test sddm component
+# pick command
+selected_command=
+if [ -z $1 ]; then
+  # prompt user for test, given no args
+  selected_command=$(printf "%s\n" "${!testing_commands[@]}" | \
+  fzf --reverse --border --prompt='Test what? ' 
+  )
+else
+  # best guess
+  selected_command=$(printf "%s\n" "${!testing_commands[@]}" | grep -i $1)
+  printf "${b_CCIN}:: ${b_CDEF}Press enter to test ${CCIN}${ITALIC}${selected_command}${b_CDEF}.${CDEF} "
+  read
+fi
 
-${b_CDEF}COMPONENTS${CDEF}
-  l lockscreen : Lockscreen (usually bound to Super+L)
-  s sddm       : SDDM theme (the actual login screen)
+# command must exist
+if [ -z "$selected_command" ]; then
+  exit 1
+fi
 
-${b_CDEF}OPTIONS${CDEF}
-  -h, --help            Print this help message
-
-${b_CDEF}NOTES${CDEF}
-  The location of the actual binaries used for testing depends on your system.
-  Edit the constants at the top of the script if an error occurs.
-EOF
-  )"
-}
-
-main() {
-  local action=
-  case "$1" in
-    "l"|"lockscreen")
-      echo -e "Testing component ${CCIN}lockscreen${CDEF}..."
-      $test_lockscreen
-      ;;
-    "s"|"sddm")
-      echo -e "Testing component ${CCIN}sddm${CDEF}..."
-      $test_sddm
-      ;;
-    "h"|"-h"|"--help"|*)
-      usage
-      exit 0
-      ;;
-  esac
-}
-
-main $1
+# run command
+echo -e "${b_CCIN}:: ${b_CDEF}Testing ${CCIN}${ITALIC}${selected_command}${b_CDEF}...${CDEF}"
+${testing_commands[$selected_command]}
