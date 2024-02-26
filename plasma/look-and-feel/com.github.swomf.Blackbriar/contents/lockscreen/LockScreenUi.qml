@@ -264,8 +264,9 @@ PlasmaCore.ColorScope {
             id: clock
             property Item shadow: clockShadow
             visible: y > 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: (mainBlock.userList.y + mainStack.y)/2 - height/2
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width * 0.02
+            anchors.verticalCenter: parent.verticalCenter
             Layout.alignment: Qt.AlignBaseline
         }
 
