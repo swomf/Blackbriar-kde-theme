@@ -237,7 +237,6 @@ PlasmaCore.ColorScope {
         WallpaperFader {
             anchors.fill: parent
             state: lockScreenRoot.uiVisible ? "on" : "off"
-            source: wallpaper
             mainStack: mainStack
             footer: footer
             clock: clock
