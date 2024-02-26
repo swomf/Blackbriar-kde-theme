@@ -14,18 +14,19 @@ ColumnLayout {
     readonly property bool softwareRendering: GraphicsInfo.api === GraphicsInfo.Software
 
     PlasmaComponents3.Label {
-        text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
-        style: softwareRendering ? Text.Outline : Text.Normal
+        id: topLabel
+        text: Qt.formatDateTime(timeSource.data["Local"]["DateTime"], "yyyy-MM-dd")
         styleColor: softwareRendering ? PlasmaCore.ColorScope.backgroundColor : "transparent" //no outline, doesn't matter
         font.pointSize: 48
         Layout.alignment: Qt.AlignHCenter
     }
     PlasmaComponents3.Label {
-        text: Qt.formatDate(timeSource.data["Local"]["DateTime"], Qt.DefaultLocaleLongDate)
+        text: Qt.formatDateTime(timeSource.data["Local"]["DateTime"], "HH:mm")
         style: softwareRendering ? Text.Outline : Text.Normal
         styleColor: softwareRendering ? PlasmaCore.ColorScope.backgroundColor : "transparent" //no outline, doesn't matter
         font.pointSize: 24
-        Layout.alignment: Qt.AlignHCenter
+        Layout.alignment: Qt.AlignLeft
+        Layout.leftMargin: topLabel.x
     }
     PlasmaCore.DataSource {
         id: timeSource
