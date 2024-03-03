@@ -1,0 +1,16 @@
+[SddmGreeterTheme]
+Name=swomf-sddm
+Description=Minimal login screen
+Author=swomf
+Copyright=
+License=GPL3
+Type=sddm-theme
+Version=1.1
+Website=https://github.com/swomf
+Screenshot=preview.jpg
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=
+Email=swomf@proton.me
+Theme-Id=swomf-sddm
+Theme-API=2.0
