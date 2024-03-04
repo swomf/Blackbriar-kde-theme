@@ -327,37 +327,40 @@ PlasmaCore.ColorScope {
                     authenticator.respond(password)
                 }
 
-                actionItems: [
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Sleep")
-                        iconSource: "system-suspend"
-                        onClicked: root.suspendToRam()
-                        visible: root.suspendToRamSupported
-                    },
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Hibernate")
-                        iconSource: "system-suspend-hibernate"
-                        onClicked: root.suspendToDisk()
-                        visible: root.suspendToDiskSupported
-                    },
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Switch User")
-                        iconSource: "system-switch-user"
-                        onClicked: {
-                            // If there are no existing sessions to switch to, create a new one instead
-                            if (((sessionsModel.showNewSessionEntry && sessionsModel.count === 1) ||
-                               (!sessionsModel.showNewSessionEntry && sessionsModel.count === 0)) &&
-                               sessionsModel.canSwitchUser) {
-                                mainStack.pop({immediate:true})
-                                sessionsModel.startNewSession(true /* lock the screen too */)
-                                lockScreenRoot.state = ''
-                            } else {
-                                mainStack.push(switchSessionPage)
-                            }
-                        }
-                        visible: sessionsModel.canStartNewSession && sessionsModel.canSwitchUser
-                    }
-                ]
+                // actionItems: [
+                //     ActionButton {
+                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Sleep")
+                //         iconSource: "../components/artwork/settings.svg"
+                //         iconSize: 32
+                //         onClicked: root.suspendToRam()
+                //         visible: root.suspendToRamSupported
+                //     },
+                //     ActionButton {
+                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Hibernate")
+                //         iconSource: "../components/artwork/reboot.svg"
+                //         iconSize: 32
+                //         onClicked: root.suspendToDisk()
+                //         visible: root.suspendToDiskSupported
+                //     },
+                //     ActionButton {
+                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Switch User")
+                //         iconSource: "system-switch-user"
+                //         iconSize: 32
+                //         onClicked: {
+                //             // If there are no existing sessions to switch to, create a new one instead
+                //             if (((sessionsModel.showNewSessionEntry && sessionsModel.count === 1) ||
+                //                (!sessionsModel.showNewSessionEntry && sessionsModel.count === 0)) &&
+                //                sessionsModel.canSwitchUser) {
+                //                 mainStack.pop({immediate:true})
+                //                 sessionsModel.startNewSession(true /* lock the screen too */)
+                //                 lockScreenRoot.state = ''
+                //             } else {
+                //                 mainStack.push(switchSessionPage)
+                //             }
+                //         }
+                //         visible: sessionsModel.canStartNewSession && sessionsModel.canSwitchUser
+                //     }
+                // ]
 
                 Loader {
                     Layout.topMargin: PlasmaCore.Units.smallSpacing // some distance to the password field
@@ -607,7 +610,39 @@ PlasmaCore.ColorScope {
                 Layout.fillWidth: true
             }
 
-            Battery {}
+            // Battery {}
+
+            RowLayout {
+
+                id: controlPanelRow
+                spacing: PlasmaCore.Units.smallSpacing * 2
+                anchors {
+                    bottom: parent.bottom
+                    right: parent.right
+                    margins: PlasmaCore.Units.smallSpacing * 2
+                }
+
+                CornerActionButton {
+                    id: switchUserButton
+                    sourceNormal : "../components/artwork/switchuser.svg"
+                    sourceHover  : "../components/artwork/switchuser-hover.svg"
+                    sourcePressed: "../components/artwork/switchuser-pressed.svg"
+                }
+
+                CornerActionButton {
+                    id: rebootButton
+                    sourceNormal : "../components/artwork/reboot.svg"
+                    sourceHover  : "../components/artwork/reboot-hover.svg"
+                    sourcePressed: "../components/artwork/reboot-pressed.svg"
+                }
+
+                CornerActionButton {
+                    id: shutdownButton
+                    sourceNormal : "../components/artwork/shutdown.svg"
+                    sourceHover  : "../components/artwork/shutdown-hover.svg"
+                    sourcePressed: "../components/artwork/shutdown-pressed.svg"
+                }
+            }
         }
     }
 }
