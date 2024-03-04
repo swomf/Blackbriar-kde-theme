@@ -615,11 +615,11 @@ PlasmaCore.ColorScope {
             RowLayout {
 
                 id: controlPanelRow
-                spacing: PlasmaCore.Units.smallSpacing * 2
+                spacing: 16
                 anchors {
                     bottom: parent.bottom
                     right: parent.right
-                    margins: PlasmaCore.Units.smallSpacing * 2
+                    margins: 12
                 }
 
                 CornerActionButton {
