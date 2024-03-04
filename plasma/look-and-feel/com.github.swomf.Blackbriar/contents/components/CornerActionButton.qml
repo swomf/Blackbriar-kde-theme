@@ -25,8 +25,8 @@ Image {
 
     activeFocusOnTab: true
     source: activeFocus ? sourceHover : sourceNormal
-    height: 32
-    width: 32
+    height: 24
+    width: 24
 
     MouseArea {
         id: mouseArea
