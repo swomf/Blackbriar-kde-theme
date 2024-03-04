@@ -18,13 +18,16 @@ Image {
     property string sourceNormal: "../components/artwork/shutdown.svg" // Defaults.
     property string sourceHover: "../components/artwork/shutdown-hover.svg"
     property string sourcePressed: "../components/artwork/shutdown-pressed.svg"
+    property bool isClicked: false
 
     property var callback: function () {
         // root.source = "../components/artwork/reboot.svg" // For testing
     }
 
     activeFocusOnTab: true
-    source: activeFocus ? sourceHover : sourceNormal
+    source: ((root.activeFocus || mouseArea.containsMouse) && !isClicked) ? sourceHover 
+                : (isClicked) ? sourcePressed
+                : sourceNormal
     height: 24
     width: 24
 
@@ -32,11 +35,11 @@ Image {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: root.source = sourceHover
-        onExited: root.source = sourceNormal
-        onPressed: root.source = sourcePressed
+        // onEntered: root.source = sourceHover
+        // onExited: root.source = (root.activeFocus || mouseArea.containsMouse) ? sourceHover : sourceNormal
+        onPressed: root.isClicked = true
         onReleased: {
-            root.source = mouseArea.containsMouse ? sourceHover : sourceNormal;
+            root.isClicked = false
             if (mouseArea.containsMouse) {
                 root.callback()
             }
