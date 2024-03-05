@@ -20,9 +20,7 @@ Image {
     property string sourcePressed: "../components/artwork/shutdown-pressed.svg"
     property bool isClicked: false
 
-    property var callback: function () {
-        // root.source = "../components/artwork/reboot.svg" // For testing
-    }
+    property var callback: function () {}
 
     activeFocusOnTab: true
     source: ((root.activeFocus || mouseArea.containsMouse) && !isClicked) ? sourceHover 
