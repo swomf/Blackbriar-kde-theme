@@ -28,6 +28,17 @@ PlasmaCore.ColorScope {
 
     colorGroup: PlasmaCore.Theme.ComplementaryColorGroup
 
+    PlasmaCore.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: []
+        onNewData: disconnectSource(sourceName)
+
+        function exec(cmd) {
+            executable.connectSource(cmd)
+        }
+    }
+
     function tryToSwitchUser(canStartSession) {
         if (!defaultToSwitchUser) { // context property
             return
@@ -634,6 +645,9 @@ PlasmaCore.ColorScope {
                     sourceNormal : "../components/artwork/reboot.svg"
                     sourceHover  : "../components/artwork/reboot-hover.svg"
                     sourcePressed: "../components/artwork/reboot-pressed.svg"
+                    callback: function() {
+                        executable.exec('qdbus org.kde.ksmserver /KSMServer logout 0 1 2')
+                    }
                 }
 
                 CornerActionButton {
@@ -641,6 +655,9 @@ PlasmaCore.ColorScope {
                     sourceNormal : "../components/artwork/shutdown.svg"
                     sourceHover  : "../components/artwork/shutdown-hover.svg"
                     sourcePressed: "../components/artwork/shutdown-pressed.svg"
+                    callback: function() {
+                        executable.exec('qdbus org.kde.ksmserver /KSMServer logout 0 2 2')
+                    }
                 }
             }
         }
