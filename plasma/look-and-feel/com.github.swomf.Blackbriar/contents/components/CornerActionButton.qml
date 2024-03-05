@@ -19,12 +19,13 @@ Image {
     property string sourceHover: "../components/artwork/shutdown-hover.svg"
     property string sourcePressed: "../components/artwork/shutdown-pressed.svg"
     property bool isClicked: false
+    property bool isHeld: false // If spacebar or enter isHeld while button is selected
 
     property var callback: function () {}
 
     activeFocusOnTab: true
-    source: ((root.activeFocus || mouseArea.containsMouse) && !isClicked) ? sourceHover 
-                : (isClicked) ? sourcePressed
+    source: ((root.activeFocus || mouseArea.containsMouse) && !(isClicked || isHeld)) ? sourceHover 
+                : (isClicked || isHeld) ? sourcePressed
                 : sourceNormal
     height: 24
     width: 24
@@ -33,8 +34,6 @@ Image {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        // onEntered: root.source = sourceHover
-        // onExited: root.source = (root.activeFocus || mouseArea.containsMouse) ? sourceHover : sourceNormal
         onPressed: root.isClicked = true
         onReleased: {
             root.isClicked = false
@@ -43,8 +42,20 @@ Image {
             }
         }
     }
-    Keys.onPressed: {
-        if (event.key === Qt.Key_Space || event.key === Qt.Key_Enter) {
+    onActiveFocusChanged: {
+        root.isHeld = false
+    }
+    Keys.onPressed: (event) => {
+        if (root.activeFocus && (event.key === Qt.Key_Space || event.key === Qt.Key_Enter)) {
+            root.isHeld = true
+        }
+    }
+    Keys.onReleased: (event) => {
+        // Unlike a mouse event, when a keyboard key is held, it auto repeats.
+        // We want the event to fire only when the key is manually released.
+        if (root.activeFocus && root.isHeld && !event.isAutoRepeat && 
+            (event.key === Qt.Key_Space || event.key === Qt.Key_Enter)) {
+            root.isHeld = false
             root.callback();
         }
     }
