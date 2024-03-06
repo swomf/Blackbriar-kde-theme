@@ -338,41 +338,6 @@ PlasmaCore.ColorScope {
                     authenticator.respond(password)
                 }
 
-                // actionItems: [
-                //     ActionButton {
-                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Sleep")
-                //         iconSource: "../components/artwork/settings.svg"
-                //         iconSize: 32
-                //         onClicked: root.suspendToRam()
-                //         visible: root.suspendToRamSupported
-                //     },
-                //     ActionButton {
-                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Hibernate")
-                //         iconSource: "../components/artwork/reboot.svg"
-                //         iconSize: 32
-                //         onClicked: root.suspendToDisk()
-                //         visible: root.suspendToDiskSupported
-                //     },
-                //     ActionButton {
-                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Switch User")
-                //         iconSource: "system-switch-user"
-                //         iconSize: 32
-                //         onClicked: {
-                //             // If there are no existing sessions to switch to, create a new one instead
-                //             if (((sessionsModel.showNewSessionEntry && sessionsModel.count === 1) ||
-                //                (!sessionsModel.showNewSessionEntry && sessionsModel.count === 0)) &&
-                //                sessionsModel.canSwitchUser) {
-                //                 mainStack.pop({immediate:true})
-                //                 sessionsModel.startNewSession(true /* lock the screen too */)
-                //                 lockScreenRoot.state = ''
-                //             } else {
-                //                 mainStack.push(switchSessionPage)
-                //             }
-                //         }
-                //         visible: sessionsModel.canStartNewSession && sessionsModel.canSwitchUser
-                //     }
-                // ]
-
                 Loader {
                     Layout.topMargin: PlasmaCore.Units.smallSpacing // some distance to the password field
                     Layout.fillWidth: true
@@ -638,6 +603,18 @@ PlasmaCore.ColorScope {
                     sourceNormal : "../components/artwork/switchuser.svg"
                     sourceHover  : "../components/artwork/switchuser-hover.svg"
                     sourcePressed: "../components/artwork/switchuser-pressed.svg"
+                    callback: function() {
+                        // If there are no existing sessions to switch to, create a new one instead
+                        if (((sessionsModel.showNewSessionEntry && sessionsModel.count === 1) ||
+                            (!sessionsModel.showNewSessionEntry && sessionsModel.count === 0)) &&
+                            sessionsModel.canSwitchUser) {
+                            mainStack.pop({immediate:true})
+                            sessionsModel.startNewSession(true /* lock the screen too */)
+                            lockScreenRoot.state = ''
+                        } else {
+                            mainStack.push(switchSessionPage)
+                        }
+                    }
                 }
 
                 CornerActionButton {
