@@ -306,6 +306,15 @@ PlasmaCore.ColorScope {
 
             initialItem: MainBlock {
                 id: mainBlock
+                //the y position that should be ensured visible
+                //when the on screen keyboard is visible
+                // TODO Fix offset when virtual keyboard is added
+                // y: - lockScreenUi.height / 4  //inputPanel.visible ? inputPanel.y - mainBlock.height - 16 : root.bottom //- myTextField.height / 2
+                // y: inputPanel.state === "hidden" ? - lockscreenUi.height / 4 : 0
+                // onHeightChanged: y = lockscreenUi.height / 4
+                property int visibleBoundary: mapFromItem(inputPanel, 0, 0).top
+                onHeightChanged: visibleBoundary = mapFromItem(inputPanel, 0, 0).top
+
                 lockScreenUiVisible: lockScreenRoot.uiVisible
 
                 showUserList: userList.y + mainStack.y > 0
