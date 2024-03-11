@@ -1,0 +1,16 @@
+[SddmGreeterTheme]
+Name=Blackbriar
+Description=Blackbriar SDDM theme
+Author=swomf
+Copyright=(c) 2024, swomf
+License=CC-BY-SA
+Type=sddm-theme
+Version=0.1.0
+Website=https://github.com/swomf/Blackbriar-kde-theme
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Email=swomf@proton.me
+Theme-Id=Blackbriar
+Theme-API=2.0
