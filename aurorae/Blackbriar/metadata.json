@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "swomf@proton.me",
+                "Name": "swomf"
+            }
+        ],
+        "Category": "",
+        "Dependencies": [
+        ],
+        "EnabledByDefault": true,
+        "Id": "Blackbriar",
+        "License": "GPL-3.0-or-later",
+        "Name": "Blackbriar",
+        "Version": "1.0",
+        "Website": "https://github.com/swomf/Blackbriar-kde-theme"
+    }
+}

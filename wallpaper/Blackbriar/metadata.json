@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "swomf@proton.me",
+                "Name": "swomf"
+            }
+        ],
+        "Category": "",
+        "Dependencies": [
+        ],
+        "Description": "Blackbriar Wallpapers",
+        "EnabledByDefault": true,
+        "Id": "Blackbriar",
+        "License": "CC-BY-SA",
+        "Name": "Blackbriar",
+        "Version": "1.0",
+        "Website": "https://github.com/swomf/Blackbriar-kde-theme"
+    },
+    "X-Plasma-API": "5.0"
+}

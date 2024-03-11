@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "swomf@proton.me",
+                "Name": "swomf"
+            }
+        ],
+        "Category": "",
+        "Description": "Blackbriar kde theme",
+        "Id": "com.github.swomf.Blackbriar",
+        "License": "GPLv3+",
+        "Name": "Blackbriar",
+        "Website": "https://github.com/swomf/Blackbriar-kde-theme"
+    },
+    "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;",
+    "X-Plasma-APIVersion": "2"
+}
