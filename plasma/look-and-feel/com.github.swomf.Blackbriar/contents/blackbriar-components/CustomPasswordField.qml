@@ -38,8 +38,9 @@ PlasmaExtras.ActionTextField {
      * @since 5.93
      */
     property bool showPassword: false
-    property string passwordHideSource: "plasma/look-and-feel/com.github.swomf.Blackbriar/contents/blackbriar-components/artwork/password-hide.svg"
-    property string passwordShowSource: "plasma/look-and-feel/com.github.swomf.Blackbriar/contents/blackbriar-components/artwork/password-show.svg"
+    // This glitches during tests, but works fine in actual lockscreen installation
+    property url passwordHideSource: Qt.resolvedUrl("artwork/password-hide.svg")
+    property url passwordShowSource: Qt.resolvedUrl("artwork/password-show.svg")
  
     Shortcut {
         // Let's consider this shortcut a standard, it's also supported at least by su and sudo
