@@ -57,7 +57,7 @@ SessionManagementScreen {
     RowLayout {
         Layout.fillWidth: true
 
-        PlasmaExtras.PasswordField {
+        CustomPasswordField {
             id: passwordBox
             font.pointSize: Kirigami.Theme.defaultFont.pointSize + 1
             Layout.fillWidth: true
@@ -65,6 +65,7 @@ SessionManagementScreen {
             placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
             focus: true
             enabled: !authenticator.graceLocked
+
 
             // In Qt this is implicitly active based on focus rather than visibility
             // in any other application having a focussed invisible object would be weird
