@@ -275,6 +275,18 @@ Item {
                 left: parent.left
                 right: parent.right
             }
+
+            Loader {
+                anchors {
+                    right: parent.right
+                    topMargin: 8
+                    top: parent.top
+                    rightMargin: 8
+                }
+                active: config.showMediaControls
+                source: "MediaControls.qml"
+            }
+
             height: lockScreenRoot.height + Kirigami.Units.gridUnit * 3
             focus: true //StackView is an implicit focus scope, so we need to give this focus so the item inside will have it
 
@@ -313,14 +325,6 @@ Item {
 
                 onPasswordResult: password => {
                     authenticator.respond(password)
-                }
-
-                Loader {
-                    Layout.topMargin: Kirigami.Units.smallSpacing // some distance to the password field
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: item ? item.implicitHeight : 0
-                    active: config.showMediaControls
-                    source: "MediaControls.qml"
                 }
             }
         }
@@ -421,7 +425,7 @@ Item {
 
             // Battery {}
 
-            RowLayout {
+            Row {
 
                 id: controlPanelRow
                 spacing: 16
