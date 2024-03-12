@@ -59,6 +59,7 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 | General icons     | [Materia KDE]        | GPLv3               |
 | Cursors           | [Qogir]              | GPLv3               |
 | Login icons       | [FontAwesome]*       | CC BY 4.0           |
+| Login icons       | [Tela circle]        | ?                   |
 | Wallpaper         | [articted]           | "no commercial use" |
 
 \* The [shutdown], [reboot], [settings], and [switchuser] SVG icons were
@@ -68,6 +69,7 @@ modified to change the color and default size.
 [Materia KDE]: https://github.com/PapirusDevelopmentTeam/materia-kde
 [Qogir]: https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors
 [FontAwesome]: https://fontawesome.com/license/free
+[Tela circle]: https://github.com/vinceliuice/Tela-circle-icon-theme
 [shutdown]: https://fontawesome.com/icons/power-off?f=classic&s=solid
 [reboot]: https://fontawesome.com/icons/gear?f=classic&s=solid
 [settings]: https://fontawesome.com/icons/arrow-rotate-right?f=classic&s=solid
