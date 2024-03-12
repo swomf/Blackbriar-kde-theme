@@ -13,9 +13,15 @@ import org.kde.kirigami 2 as Kirigami
 import org.kde.plasma.private.mpris as Mpris
 
 Item {
-    visible: instantiator.count > 0
+    visible: true
     implicitHeight: Kirigami.Units.gridUnit * 3
     implicitWidth: Kirigami.Units.gridUnit * 16
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#151515"  // Dark grey color
+        radius: Kirigami.Units.gridUnit / 2
+    }
 
     Repeater {
         id: instantiator
