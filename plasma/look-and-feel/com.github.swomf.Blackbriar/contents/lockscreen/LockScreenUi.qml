@@ -245,13 +245,14 @@ Item {
             }
         }
 
-        Clock {
+        CustomClock {
             id: clock
             property Item shadow: clockShadow
             visible: y > 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: (mainBlock.userList.y + mainStack.y)/2 - height/2
-            Layout.alignment: Qt.AlignBaseline
+            anchors.left: parent.left
+            anchors.leftMargin: Kirigami.Units.largeSpacing
+            anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
         }
 
         ListModel {
