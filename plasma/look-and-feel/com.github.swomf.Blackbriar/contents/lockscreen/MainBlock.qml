@@ -15,6 +15,7 @@ import org.kde.kirigami 2.20 as Kirigami
 import org.kde.kscreenlocker 1.0 as ScreenLocker
 
 import org.kde.breeze.components
+import "../blackbriar-components"
 
 SessionManagementScreen {
     id: sessionManager
@@ -24,8 +25,8 @@ SessionManagementScreen {
     property alias showPassword: passwordBox.showPassword
 
     //the y position that should be ensured visible when the on screen keyboard is visible
-    property int visibleBoundary: mapFromItem(loginButton, 0, 0).y
-    onHeightChanged: visibleBoundary = mapFromItem(loginButton, 0, 0).y + loginButton.height + Kirigami.Units.smallSpacing
+    // property int visibleBoundary: mapFromItem(loginButton, 0, 0).y
+    // onHeightChanged: visibleBoundary = mapFromItem(loginButton, 0, 0).y + loginButton.height + Kirigami.Units.smallSpacing
     /*
      * Login has been requested with the following username and password
      * If username field is visible, it will be taken from that, otherwise from the "name" property of the currentIndex
@@ -33,7 +34,7 @@ SessionManagementScreen {
     signal passwordResult(string password)
 
     onUserSelected: {
-        const nextControl = (passwordBox.visible ? passwordBox : loginButton);
+        // const nextControl = (passwordBox.visible ? passwordBox : loginButton);
         // Don't startLogin() here, because the signal is connected to the
         // Escape key as well, for which it wouldn't make sense to trigger
         // login. Using TabFocusReason, so that the loginButton gets the
@@ -49,7 +50,7 @@ SessionManagementScreen {
         // TextField focused.
         //
         // See https://bugreports.qt.io/browse/QTBUG-55460
-        loginButton.forceActiveFocus();
+        // loginButton.forceActiveFocus();
         passwordResult(password);
     }
 
@@ -102,18 +103,18 @@ SessionManagementScreen {
             }
         }
 
-        PlasmaComponents3.Button {
-            id: loginButton
-            Accessible.name: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Unlock")
-            Layout.preferredHeight: passwordBox.implicitHeight
-            Layout.preferredWidth: loginButton.Layout.preferredHeight
+        // PlasmaComponents3.Button {
+        //     id: loginButton
+        //     Accessible.name: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Unlock")
+        //     Layout.preferredHeight: passwordBox.implicitHeight
+        //     Layout.preferredWidth: loginButton.Layout.preferredHeight
 
-            icon.name: LayoutMirroring.enabled ? "go-previous" : "go-next"
+        //     icon.name: LayoutMirroring.enabled ? "go-previous" : "go-next"
 
-            onClicked: startLogin()
-            Keys.onEnterPressed: clicked()
-            Keys.onReturnPressed: clicked()
-        }
+        //     onClicked: startLogin()
+        //     Keys.onEnterPressed: clicked()
+        //     Keys.onReturnPressed: clicked()
+        // }
     }
 
     component FailableLabel : PlasmaComponents3.Label {

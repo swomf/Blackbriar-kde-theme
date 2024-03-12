@@ -18,6 +18,7 @@ import org.kde.kscreenlocker 1.0 as ScreenLocker
 
 import org.kde.plasma.private.sessions 2.0
 import org.kde.breeze.components
+import "../blackbriar-components"
 
 Item {
     id: lockScreenUi
@@ -35,6 +36,33 @@ Item {
             root.notificationRepeated();
         } else {
             root.notification += "\n" + msg
+        }
+    }
+
+    P5Support.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: []
+        onNewData: disconnectSource(sourceName)
+
+        function exec(cmd) {
+            executable.connectSource(cmd)
+        }
+    }
+
+    function tryToSwitchUser(canStartSession) {
+        if (!defaultToSwitchUser) { // context property
+            return
+        }
+        // If we are in the only session, then going to the session switcher is
+        // a pointless extra step; instead create a new session immediately
+        if (canStartSession &&
+            ((sessionsModel.showNewSessionEntry && sessionsModel.count === 1)  ||
+            (!sessionsModel.showNewSessionEntry && sessionsModel.count === 0)) &&
+            sessionsModel.canStartNewSession) {
+            sessionsModel.startNewSession(true /* lock the screen too */)
+        } else {
+            mainStack.push(switchSessionPage, {immediate: true})
         }
     }
 
@@ -286,29 +314,6 @@ Item {
                     authenticator.respond(password)
                 }
 
-                actionItems: [
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Sleep")
-                        iconSource: "system-suspend"
-                        onClicked: root.suspendToRam()
-                        visible: root.suspendToRamSupported
-                    },
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Hibernate")
-                        iconSource: "system-suspend-hibernate"
-                        onClicked: root.suspendToDisk()
-                        visible: root.suspendToDiskSupported
-                    },
-                    ActionButton {
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Switch User")
-                        iconSource: "system-switch-user"
-                        onClicked: {
-                            sessionManagement.switchUser();
-                        }
-                        visible: sessionManagement.canSwitchUser
-                    }
-                ]
-
                 Loader {
                     Layout.topMargin: Kirigami.Units.smallSpacing // some distance to the password field
                     Layout.fillWidth: true
@@ -413,7 +418,55 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Battery {}
+            // Battery {}
+
+            RowLayout {
+
+                id: controlPanelRow
+                spacing: 16
+                anchors {
+                    bottom: parent.bottom
+                    right: parent.right
+                    margins: 12
+                }
+
+                CornerActionButton {
+                    id: switchUserButton
+                    sourceNormal : "../blackbriar-components/artwork/switchuser.svg"
+                    sourceHover  : "../blackbriar-components/artwork/switchuser-hover.svg"
+                    sourcePressed: "../blackbriar-components/artwork/switchuser-pressed.svg"
+                    callback: function() {
+                        sessionManagement.switchUser();
+                    
+                        // visible: sessionManagement.canSwitchUser
+                    }
+                }
+
+                CornerActionButton {
+                    id: rebootButton
+                    sourceNormal : "../blackbriar-components/artwork/reboot.svg"
+                    sourceHover  : "../blackbriar-components/artwork/reboot-hover.svg"
+                    sourcePressed: "../blackbriar-components/artwork/reboot-pressed.svg"
+                    callback: function() {
+                        // Formerly executable.exec('qdbus org.kde.ksmserver /KSMServer logout 0 1 2')
+                        //      (stopped working)
+                        // I am unsure what the permission differences are. This
+                        // may perhaps pose a polkit issue on certain systems.
+                        executable.exec('reboot') 
+                    }
+                }
+
+                CornerActionButton {
+                    id: shutdownButton
+                    sourceNormal : "../blackbriar-components/artwork/shutdown.svg"
+                    sourceHover  : "../blackbriar-components/artwork/shutdown-hover.svg"
+                    sourcePressed: "../blackbriar-components/artwork/shutdown-pressed.svg"
+                    callback: function() {
+                        // Similarly.
+                        executable.exec('shutdown now')
+                    }
+                }
+            }
         }
     }
 }
