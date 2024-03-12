@@ -38,7 +38,7 @@ prompt () {
 # Checking for root access and proceed if it is present
 if [ "$UID" -eq "$ROOT_UID" ]; then
   prompt -i "\n * Install Blackbriar in ${THEME_DIR}... "
-  cp -r "${REO_DIR}/Blackbriar" "${THEME_DIR}"
+  cp -r --dereference "${REO_DIR}/Blackbriar" "${THEME_DIR}"
   # Success message
   prompt -s "\n * All done!"
 else

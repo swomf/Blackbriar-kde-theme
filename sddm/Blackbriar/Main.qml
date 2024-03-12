@@ -14,6 +14,7 @@ import org.kde.plasma.plasma5support 2.0 as P5Support
 import org.kde.kirigami 2.20 as Kirigami
 
 import org.kde.breeze.components
+import "blackbriar-components"
 
 // TODO: Once SDDM 0.19 is released and we are setting the font size using the
 // SDDM KCM's syncing feature, remove the `config.fontSize` overrides here and
@@ -37,6 +38,17 @@ Item {
 
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
+
+    P5Support.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: []
+        onNewData: disconnectSource(sourceName)
+
+        function exec(cmd) {
+            executable.connectSource(cmd)
+        }
+    }
 
     P5Support.DataSource {
         id: keystateSource
@@ -515,8 +527,52 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Battery {
-                fontSize: config.fontSize
+            // Battery {
+            //     fontSize: config.fontSize
+            // }
+            Row {
+                id: controlPanelRow
+                spacing: 16
+                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                Layout.rightMargin: 12
+                Layout.bottomMargin: 12
+
+                CornerActionButton {
+                    id: switchUserButton
+                    sourceNormal : "blackbriar-components/artwork/settings.svg"
+                    sourceHover  : "blackbriar-components/artwork/settings-hover.svg"
+                    sourcePressed: "blackbriar-components/artwork/settings-pressed.svg"
+                    callback: function() {
+                        sessionManagement.switchUser();
+                    
+                        // visible: sessionManagement.canSwitchUser
+                    }
+                }
+
+                CornerActionButton {
+                    id: rebootButton
+                    sourceNormal : "blackbriar-components/artwork/reboot.svg"
+                    sourceHover  : "blackbriar-components/artwork/reboot-hover.svg"
+                    sourcePressed: "blackbriar-components/artwork/reboot-pressed.svg"
+                    callback: function() {
+                        // Formerly executable.exec('qdbus org.kde.ksmserver /KSMServer logout 0 1 2')
+                        //      (stopped working)
+                        // I am unsure what the permission differences are. This
+                        // may perhaps pose a polkit issue on certain systems.
+                        executable.exec('reboot') 
+                    }
+                }
+
+                CornerActionButton {
+                    id: shutdownButton
+                    sourceNormal : "blackbriar-components/artwork/shutdown.svg"
+                    sourceHover  : "blackbriar-components/artwork/shutdown-hover.svg"
+                    sourcePressed: "blackbriar-components/artwork/shutdown-pressed.svg"
+                    callback: function() {
+                        // Similarly.
+                        executable.exec('shutdown now')
+                    }
+                }
             }
         }
     }
