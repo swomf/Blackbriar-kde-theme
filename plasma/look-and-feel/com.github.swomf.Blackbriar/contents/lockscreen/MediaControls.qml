@@ -13,13 +13,16 @@ import org.kde.kirigami 2 as Kirigami
 import org.kde.plasma.private.mpris as Mpris
 
 Item {
+    id: root
     visible: true
     implicitHeight: Kirigami.Units.gridUnit * 3
     implicitWidth: Kirigami.Units.gridUnit * 16
+    property bool showRectangle: false
 
     Rectangle {
         anchors.fill: parent
-        color: "#151515"  // Dark grey color
+        visible: root.showRectangle
+        color: "#151515"  // Dark grey background
         radius: Kirigami.Units.gridUnit / 2
     }
 
@@ -32,7 +35,10 @@ Item {
 
             anchors.fill: parent
             spacing: 0
-            enabled: model.canControl
+            enabled: {
+                root.showRectangle = model.canControl
+                return model.canControl
+            }
 
             Image {
                 id: albumArt
