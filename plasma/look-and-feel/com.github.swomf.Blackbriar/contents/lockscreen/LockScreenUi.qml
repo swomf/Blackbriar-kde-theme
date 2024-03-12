@@ -426,14 +426,11 @@ Item {
             // Battery {}
 
             Row {
-
                 id: controlPanelRow
                 spacing: 16
-                anchors {
-                    bottom: parent.bottom
-                    right: parent.right
-                    margins: 12
-                }
+                Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+                Layout.rightMargin: 12
+                Layout.bottomMargin: 12
 
                 CornerActionButton {
                     id: switchUserButton
@@ -441,9 +438,7 @@ Item {
                     sourceHover  : "../blackbriar-components/artwork/switchuser-hover.svg"
                     sourcePressed: "../blackbriar-components/artwork/switchuser-pressed.svg"
                     callback: function() {
-                        sessionManagement.switchUser();
-                    
-                        // visible: sessionManagement.canSwitchUser
+                        // TODO: Add desktop environment selection
                     }
                 }
 
