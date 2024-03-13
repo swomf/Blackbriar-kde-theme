@@ -5,7 +5,7 @@
 declare -A testing_commands
 testing_commands=(
   ["lockscreen"]="/usr/lib/kscreenlocker_greet --testing --theme $(pwd)/plasma/look-and-feel/com.github.swomf.Blackbriar"
-  ["sddm"]="sddm-greeter --test-mode --theme sddm/Blackbriar"
+  ["sddm"]="sddm-greeter-qt6 --test-mode --theme sddm/Blackbriar"
 )
 
 # color constants
