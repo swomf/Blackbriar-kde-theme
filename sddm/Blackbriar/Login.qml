@@ -7,19 +7,20 @@ import QtQuick.Controls 2.15 as QQC2
 import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.kirigami 2.20 as Kirigami
+import "blackbriar-components"
 
 SessionManagementScreen {
     id: root
     property Item mainPasswordBox: passwordBox
 
-    property bool showUsernamePrompt: !showUserList
+    property bool showUsernamePrompt: true
 
     property string lastUserName
     property bool loginScreenUiVisible: false
 
     //the y position that should be ensured visible when the on screen keyboard is visible
-    property int visibleBoundary: mapFromItem(loginButton, 0, 0).y
-    onHeightChanged: visibleBoundary = mapFromItem(loginButton, 0, 0).y + loginButton.height + Kirigami.Units.smallSpacing
+    // property int visibleBoundary: mapFromItem(loginButton, 0, 0).y
+    // onHeightChanged: visibleBoundary = mapFromItem(loginButton, 0, 0).y + loginButton.height + Kirigami.Units.smallSpacing
 
     property int fontSize: parseInt(config.fontSize)
 
@@ -46,9 +47,7 @@ SessionManagementScreen {
     function focusFirstVisibleFormControl() {
         const nextControl = (userNameInput.visible
             ? userNameInput
-            : (passwordBox.visible
-                ? passwordBox
-                : loginButton));
+            : passwordBox);
         // Using TabFocusReason, so that the loginButton gets the visual highlight.
         nextControl.forceActiveFocus(Qt.TabFocusReason);
     }
@@ -58,7 +57,7 @@ SessionManagementScreen {
      * If username field is visible, it will be taken from that, otherwise from the "name" property of the currentIndex
      */
     function startLogin() {
-        const username = showUsernamePrompt ? userNameInput.text : userList.selectedUser
+        const username = userNameInput.text
         const password = passwordBox.text
 
         footer.enabled = false
@@ -70,7 +69,7 @@ SessionManagementScreen {
         // TextField focused.
         //
         // See https://bugreports.qt.io/browse/QTBUG-55460
-        loginButton.forceActiveFocus();
+        // loginButton.forceActiveFocus();
         loginRequest(username, password);
     }
 
@@ -94,7 +93,7 @@ SessionManagementScreen {
     RowLayout {
         Layout.fillWidth: true
 
-        PlasmaExtras.PasswordField {
+        CustomPasswordField {
             id: passwordBox
             font.pointSize: fontSize + 1
             Layout.fillWidth: true
@@ -102,16 +101,13 @@ SessionManagementScreen {
             placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
             focus: !showUsernamePrompt || lastUserName
 
-            // Disable reveal password action because SDDM does not have the breeze icon set loaded
-            rightActions: []
-
             onAccepted: {
                 if (root.loginScreenUiVisible) {
                     startLogin();
                 }
             }
 
-            visible: root.showUsernamePrompt || userList.currentItem.needsPassword
+            // visible: root.showUsernamePrompt || userList.currentItem.needsPassword
 
             Keys.onEscapePressed: {
                 mainStack.currentItem.forceActiveFocus();
@@ -137,20 +133,6 @@ SessionManagementScreen {
                     passwordBox.forceActiveFocus()
                 }
             }
-        }
-
-        PlasmaComponents3.Button {
-            id: loginButton
-            Accessible.name: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Log In")
-            Layout.preferredHeight: passwordBox.implicitHeight
-            Layout.preferredWidth: text.length === 0 ? loginButton.Layout.preferredHeight : -1
-
-            icon.name: text.length === 0 ? (root.LayoutMirroring.enabled ? "go-previous" : "go-next") : ""
-
-            text: root.showUsernamePrompt || userList.currentItem.needsPassword ? "" : i18n("Log In")
-            onClicked: startLogin()
-            Keys.onEnterPressed: clicked()
-            Keys.onReturnPressed: clicked()
         }
     }
 }

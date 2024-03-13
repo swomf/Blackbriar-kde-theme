@@ -54,6 +54,16 @@ SessionManagementScreen {
         passwordResult(password);
     }
 
+    PlasmaComponents3.TextField {
+        id: readonlyUsernameBox
+        font.pointSize: Kirigami.Theme.defaultFont.pointSize + 1
+        Layout.fillWidth: true
+
+        placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
+        text: userList.model.get(userList.currentIndex).name
+        readOnly: true
+    }
+
     RowLayout {
         Layout.fillWidth: true
 

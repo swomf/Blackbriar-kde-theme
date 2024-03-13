@@ -39,16 +39,16 @@ Item {
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    P5Support.DataSource {
-        id: executable
-        engine: "executable"
-        connectedSources: []
-        onNewData: disconnectSource(sourceName)
+    // P5Support.DataSource {
+    //     id: executable
+    //     engine: "executable"
+    //     connectedSources: []
+    //     onNewData: disconnectSource(sourceName)
 
-        function exec(cmd) {
-            executable.connectSource(cmd)
-        }
-    }
+    //     function exec(cmd) {
+    //         executable.connectSource(cmd)
+    //     }
+    // }
 
     P5Support.DataSource {
         id: keystateSource
@@ -130,30 +130,12 @@ Item {
             clock: clock
         }
 
-        DropShadow {
-            id: clockShadow
-            anchors.fill: clock
-            source: clock
-            visible: !softwareRendering
-            radius: 6
-            samples: 14
-            spread: 0.3
-            color : "black" // shadows should always be black
-            Behavior on opacity {
-                OpacityAnimator {
-                    duration: Kirigami.Units.veryLongDuration * 2
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-
-        Clock {
+        CustomMiniClock {
             id: clock
-            property Item shadow: clockShadow
-            visible: y > 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: (userListComponent.userList.y + mainStack.y)/2 - height/2
-            Layout.alignment: Qt.AlignBaseline
+            anchors.right: parent.right
+            anchors.rightMargin: Kirigami.Units.largeSpacing
+            anchors.top: parent.top
+            anchors.topMargin: Kirigami.Units.smallSpacing
         }
 
         QQC2.StackView {
@@ -219,36 +201,36 @@ Item {
                 }
 
                 actionItemsVisible: !inputPanel.keyboardActive
-                actionItems: [
-                    ActionButton {
-                        iconSource: "system-suspend"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.suspend()
-                        enabled: sddm.canSuspend
-                    },
-                    ActionButton {
-                        iconSource: "system-reboot"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.reboot()
-                        enabled: sddm.canReboot
-                    },
-                    ActionButton {
-                        iconSource: "system-shutdown"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.powerOff()
-                        enabled: sddm.canPowerOff
-                    },
-                    ActionButton {
-                        iconSource: "system-user-prompt"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "For switching to a username and password prompt", "Other…")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: mainStack.push(userPromptComponent)
-                        enabled: true
-                        visible: !userListComponent.showUsernamePrompt
-                    }]
+                // actionItems: [
+                //     ActionButton {
+                //         iconSource: "system-suspend"
+                //         text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
+                //         fontSize: parseInt(config.fontSize) + 1
+                //         onClicked: sddm.suspend()
+                //         enabled: sddm.canSuspend
+                //     },
+                //     ActionButton {
+                //         iconSource: "system-reboot"
+                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
+                //         fontSize: parseInt(config.fontSize) + 1
+                //         onClicked: sddm.reboot()
+                //         enabled: sddm.canReboot
+                //     },
+                //     ActionButton {
+                //         iconSource: "system-shutdown"
+                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
+                //         fontSize: parseInt(config.fontSize) + 1
+                //         onClicked: sddm.powerOff()
+                //         enabled: sddm.canPowerOff
+                //     },
+                //     ActionButton {
+                //         iconSource: "system-user-prompt"
+                //         text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "For switching to a username and password prompt", "Other…")
+                //         fontSize: parseInt(config.fontSize) + 1
+                //         onClicked: mainStack.push(userPromptComponent)
+                //         enabled: true
+                //         visible: !userListComponent.showUsernamePrompt
+                //     }]
 
                 onLoginRequest: {
                     root.notificationMessage = ""
@@ -538,14 +520,12 @@ Item {
                 Layout.bottomMargin: 12
 
                 CornerActionButton {
-                    id: switchUserButton
+                    id: selectDEButton
                     sourceNormal : "blackbriar-components/artwork/settings.svg"
                     sourceHover  : "blackbriar-components/artwork/settings-hover.svg"
                     sourcePressed: "blackbriar-components/artwork/settings-pressed.svg"
-                    callback: function() {
-                        sessionManagement.switchUser();
-                    
-                        // visible: sessionManagement.canSwitchUser
+                    callback: function() {                    
+
                     }
                 }
 
@@ -555,11 +535,7 @@ Item {
                     sourceHover  : "blackbriar-components/artwork/reboot-hover.svg"
                     sourcePressed: "blackbriar-components/artwork/reboot-pressed.svg"
                     callback: function() {
-                        // Formerly executable.exec('qdbus org.kde.ksmserver /KSMServer logout 0 1 2')
-                        //      (stopped working)
-                        // I am unsure what the permission differences are. This
-                        // may perhaps pose a polkit issue on certain systems.
-                        executable.exec('reboot') 
+                        sddm.reboot()
                     }
                 }
 
@@ -569,8 +545,7 @@ Item {
                     sourceHover  : "blackbriar-components/artwork/shutdown-hover.svg"
                     sourcePressed: "blackbriar-components/artwork/shutdown-pressed.svg"
                     callback: function() {
-                        // Similarly.
-                        executable.exec('shutdown now')
+                        sddm.reboot()
                     }
                 }
             }
