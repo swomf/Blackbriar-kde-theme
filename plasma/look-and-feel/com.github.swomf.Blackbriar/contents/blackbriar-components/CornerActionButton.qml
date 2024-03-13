@@ -2,21 +2,14 @@ import QtQml 2.15
 import QtQuick 2.8
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
-import Qt5Compat.GraphicalEffects
-
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.workspace.components 2.0 as PW
-
-import org.kde.plasma.private.sessions 2.0
 import "../blackbriar-components"
 
 Image {
     id: root
     
-    property string sourceNormal: "../blackbriar-components/artwork/shutdown.svg" // Defaults.
-    property string sourceHover: "../blackbriar-components/artwork/shutdown-hover.svg"
-    property string sourcePressed: "../blackbriar-components/artwork/shutdown-pressed.svg"
+    property string sourceNormal: Qt.resolvedUrl("../blackbriar-components/artwork/shutdown.svg") //Defaults.
+    property string sourceHover: Qt.resolvedUrl("../blackbriar-components/artwork/shutdown-hover.svg")
+    property string sourcePressed: Qt.resolvedUrl("../blackbriar-components/artwork/shutdown-pressed.svg")
     property bool isClicked: false
     property bool isHeld: false // If spacebar or enter isHeld while button is selected
 

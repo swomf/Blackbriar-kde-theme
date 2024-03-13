@@ -1,76 +1,45 @@
-/*
-    SPDX-FileCopyrightText: 2016 David Edmundson <davidedmundson@kde.org>
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
-    SPDX-License-Identifier: LGPL-2.0-or-later
-*/
-
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-
-import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.plasma5support 2.0 as P5Support
-
-ColumnLayout {
+Column {
+    id: root
     state: lockScreenRoot.uiVisible ? "off" : "on"
-    readonly property bool softwareRendering: GraphicsInfo.api === GraphicsInfo.Software
+    property int fontSize: parent.height * 0.06
+    anchors.left: parent.left
+    anchors.right: parent.right
+    spacing: -5
 
-    PlasmaComponents3.Label {
-        id: topLabel
-        text: Qt.formatDateTime(timeSource.data["Local"]["DateTime"], "yyyy-MM-dd")
-        styleColor: softwareRendering ? P5Support.ColorScope.backgroundColor : "transparent" //no outline, doesn't matter
-        font.pointSize: 48
-        Layout.alignment: Qt.AlignHCenter
-        Layout.bottomMargin: -8 // Reduce space between two label entries
-    }
-    PlasmaComponents3.Label {
-        id: bottomLabel
-        text: Qt.formatDateTime(timeSource.data["Local"]["DateTime"], "HH:mm")
-        style: softwareRendering ? Text.Outline : Text.Normal
-        styleColor: softwareRendering ? P5Support.ColorScope.backgroundColor : "transparent" //no outline, doesn't matter
-        font.pointSize: 24
-        Layout.alignment: Qt.AlignLeft
-        Layout.leftMargin: topLabel.x
-        Layout.topMargin: -8
-    }
-    P5Support.DataSource {
-        id: timeSource
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 1000
-    }
-    states: [
-        State {
-            name: "on"
-            PropertyChanges {
-                target: topLabel
-                opacity: 1
-            }
-            PropertyChanges {
-                target: bottomLabel
-                opacity: 1
-            }
-        },
-        State {
-            name: "off"
-            PropertyChanges {
-                target: topLabel
-                opacity: 0
-            }
-            PropertyChanges {
-                target: bottomLabel
-                opacity: 0
-            }
+    Label {
+        id: dateLabel
+        color: root.palette.text
+        font.pixelSize: root.fontSize
+        renderType: Text.QtRendering
+        function updateTime() {
+            text = new Date().toISOString().slice(0, 10) // ISO Format
         }
-    ]
+    }
+
+    Label {
+        id: timeLabel
+        color: root.palette.text
+        font.pixelSize: root.fontSize / 2
+        renderType: Text.QtRendering
+        function updateTime() {
+            text = new Date().toISOString().slice(11, 16); // 24-hour clock
+        }
+    }
+
     transitions: [
         Transition {
             from: "off"
             to: "on"
             //Note: can't use animators as they don't play well with parallelanimations
             NumberAnimation {
-                targets: [topLabel, bottomLabel]
+                targets: [dateLabel, timeLabel]
                 property: "opacity"
-                duration: P5Support.Units.veryLongDuration
+                from: 0
+                to: 1
+                duration: 500 // milliseconds
                 easing.type: Easing.OutCubic
             }
         },
@@ -78,11 +47,28 @@ ColumnLayout {
             from: "on"
             to: "off"
             NumberAnimation {
-                targets: [topLabel, bottomLabel]
+                targets: [dateLabel, timeLabel]
                 property: "opacity"
-                duration: P5Support.Units.veryLongDuration
+                from: 1
+                to: 0
+                duration: 500 // milliseconds
                 easing.type: Easing.OutCubic
             }
         }
     ]
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: true
+        onTriggered: {
+            dateLabel.updateTime()
+            timeLabel.updateTime()
+        }
+    }
+
+    Component.onCompleted: {
+        dateLabel.updateTime()
+        timeLabel.updateTime()
+    }
 }

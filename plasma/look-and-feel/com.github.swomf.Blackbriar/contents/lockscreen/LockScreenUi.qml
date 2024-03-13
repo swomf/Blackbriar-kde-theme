@@ -247,6 +247,7 @@ Item {
 
         CustomClock {
             id: clock
+            state: lockScreenRoot.uiVisible ? "off" : "on"
             property Item shadow: clockShadow
             visible: y > 0
             anchors.left: parent.left
