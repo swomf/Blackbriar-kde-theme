@@ -50,6 +50,7 @@ PlasmaExtras.ActionTextField {
     }
  
     echoMode: root.showPassword ? TextInput.Normal : TextInput.Password
+    passwordCharacter: "•" // U+2022 is centered, unlike the default U+25CF
     placeholderText: i18nd("libplasma6", "Password")
     inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
  
