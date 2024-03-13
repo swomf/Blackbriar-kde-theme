@@ -56,6 +56,7 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 | Resource          | Source               | License             |
 |-------------------|----------------------|---------------------|
 | Main forked theme | [Graphite-gtk-theme] | GPLv3               |
+| Base forked sddm  | [sugar-dark]         | GPLv3               |
 | General icons     | [Materia KDE]        | GPLv3               |
 | Cursors           | [Qogir]              | GPLv3               |
 | Login icons       | [FontAwesome]*       | CC BY 4.0           |
@@ -75,3 +76,4 @@ modified to change the color and default size.
 [settings]: https://fontawesome.com/icons/arrow-rotate-right?f=classic&s=solid
 [switchuser]: https://fontawesome.com/icons/arrow-right-to-bracket?f=classic&s=solid
 [articted]: https://www.behance.net/gallery/10876531/FLATzero-Wallpaper-Pack
+[sugar-dark]: https://github.com/MarianArlt/sddm-sugar-dark
