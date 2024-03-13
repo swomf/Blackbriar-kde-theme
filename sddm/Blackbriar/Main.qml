@@ -13,6 +13,9 @@ import org.kde.plasma.components 3.0 as PlasmaComponents3
 import org.kde.plasma.plasma5support 2.0 as P5Support
 import org.kde.kirigami 2.20 as Kirigami
 
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+
 import org.kde.breeze.components
 import "blackbriar-components"
 
@@ -234,7 +237,7 @@ Item {
 
                 onLoginRequest: {
                     root.notificationMessage = ""
-                    sddm.login(username, password, sessionButton.currentIndex)
+                    sddm.login(username, password, selectDEButton.currentIndex)
                 }
             }
 
@@ -341,7 +344,7 @@ Item {
 
                 onLoginRequest: {
                     root.notificationMessage = ""
-                    sddm.login(username, password, sessionButton.currentIndex)
+                    sddm.login(username, password, selectDEButton.currentIndex)
                 }
 
                 actionItemsVisible: !inputPanel.keyboardActive
@@ -484,26 +487,26 @@ Item {
                 }
             }
 
-            SessionButton {
-                id: sessionButton
+            // SessionButton {
+            //     id: sessionButton
 
-                font.pointSize: config.fontSize
+            //     font.pointSize: config.fontSize
 
-                onSessionChanged: {
-                    // Otherwise the password field loses focus and virtual keyboard
-                    // keystrokes get eaten
-                    userListComponent.mainPasswordBox.forceActiveFocus();
-                }
+            //     onSessionChanged: {
+            //         // Otherwise the password field loses focus and virtual keyboard
+            //         // keystrokes get eaten
+            //         userListComponent.mainPasswordBox.forceActiveFocus();
+            //     }
 
-                Layout.fillHeight: true
-                containmentMask: Item {
-                    parent: sessionButton
-                    anchors.fill: parent
-                    anchors.leftMargin: virtualKeyboardButton.visible || keyboardButton.visible
-                        ? 0 : -footer.anchors.margins
-                    anchors.bottomMargin: -footer.anchors.margins
-                }
-            }
+            //     Layout.fillHeight: true
+            //     containmentMask: Item {
+            //         parent: sessionButton
+            //         anchors.fill: parent
+            //         anchors.leftMargin: virtualKeyboardButton.visible || keyboardButton.visible
+            //             ? 0 : -footer.anchors.margins
+            //         anchors.bottomMargin: -footer.anchors.margins
+            //     }
+            // }
 
             Item {
                 Layout.fillWidth: true
@@ -525,7 +528,36 @@ Item {
                     sourceHover  : "blackbriar-components/artwork/settings-hover.svg"
                     sourcePressed: "blackbriar-components/artwork/settings-pressed.svg"
                     callback: function() {                    
+                        selectDEMenu.visible = !selectDEMenu.visible
+                    }
 
+                    signal sessionChanged()
+
+                    property int currentIndex: sessionModel.currentIndex
+
+                    PlasmaComponents3.Menu {
+                        Kirigami.Theme.colorSet: Kirigami.Theme.Window
+                        Kirigami.Theme.inherit: false
+
+                        id: selectDEMenu
+                        Instantiator {
+                            id: instantiator
+                            model: sessionModel
+                            property int currentIndex: model.lastIndex
+                            onObjectAdded: (index, object) => selectDEMenu.insertItem(index, object)
+                            onObjectRemoved: (index, object) => selectDEMenu.removeItem(object)
+                            delegate: PlasmaComponents3.MenuItem {
+                                text: model.name
+                                onTriggered: {
+                                    selectDEButton.currentIndex = model.index
+                                    sessionChanged()
+                                }
+                            }
+                            Component.onCompleted: {
+                                selectDEButton.currentIndex = model.lastIndex
+                                sessionChanged()
+                            }
+                        }
                     }
                 }
 

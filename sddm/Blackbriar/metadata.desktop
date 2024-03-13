@@ -14,3 +14,4 @@ TranslationsDirectory=translations
 Email=swomf@proton.me
 Theme-Id=Blackbriar
 Theme-API=2.0
+QtVersion=6
