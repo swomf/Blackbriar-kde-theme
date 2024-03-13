@@ -28,15 +28,7 @@ ColumnLayout {
     property int p: config.ScreenPadding
     property string a: config.FormPosition
     property alias systemButtonVisibility: systemButtons.visible
-    property alias clockVisibility: clock.visible
     property bool virtualKeyboardActive
-
-    Clock {
-        id: clock
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-        Layout.preferredHeight: root.height / 4
-        Layout.leftMargin: p != "0" ? a == "left" ? -p : a == "right" ? p : 0 : 0
-    }
 
     Input {
         id: input

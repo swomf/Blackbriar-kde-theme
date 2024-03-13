@@ -13,37 +13,6 @@ Pane {
     LayoutMirroring.enabled: config.ForceRightToLeft == "true" ? true : Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    padding: config.ScreenPadding
-    palette.button: "transparent"
-    palette.highlight: config.AccentColor
-    palette.text: config.MainColor
-    palette.buttonText: config.MainColor
-    palette.window: "#444"
-
-    font.family: config.Font
-    font.pointSize: config.FontSize !== "" ? config.FontSize : parseInt(height / 80)
-    focus: true
-
-    property bool leftleft: config.HaveFormBackground == "true" &&
-                            config.PartialBlur == "false" &&
-                            config.FormPosition == "left" &&
-                            config.BackgroundImageAlignment == "left"
-
-    property bool leftcenter: config.HaveFormBackground == "true" &&
-                              config.PartialBlur == "false" &&
-                              config.FormPosition == "left" &&
-                              config.BackgroundImageAlignment == "center"
-
-    property bool rightright: config.HaveFormBackground == "true" &&
-                              config.PartialBlur == "false" &&
-                              config.FormPosition == "right" &&
-                              config.BackgroundImageAlignment == "right"
-
-    property bool rightcenter: config.HaveFormBackground == "true" &&
-                               config.PartialBlur == "false" &&
-                               config.FormPosition == "right" &&
-                               config.BackgroundImageAlignment == "center"
-
     Item {
         id: sizeHelper
 
@@ -63,9 +32,10 @@ Pane {
         LoginForm {
             id: form
 
-            height: virtualKeyboard.state == "visible" ? parent.height - virtualKeyboard.implicitHeight : parent.height
+            // height: virtualKeyboard.state == "visible" ? parent.height - virtualKeyboard.implicitHeight : parent.height
+            height: parent.height
             width: parent.width / 2.5
-            anchors.horizontalCenter: config.FormPosition == "center" ? parent.horizontalCenter : undefined
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.left: config.FormPosition == "left" ? parent.left : undefined
             anchors.right: config.FormPosition == "right" ? parent.right : undefined
             virtualKeyboardActive: virtualKeyboard.state == "visible" ? true : false
@@ -202,6 +172,10 @@ Pane {
             cache: true
             clip: true
             mipmap: true
+        }
+
+        Clock {
+            id: clock
         }
 
         MouseArea {
