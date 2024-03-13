@@ -438,7 +438,7 @@ Item {
                     sourceHover  : "../blackbriar-components/artwork/switchuser-hover.svg"
                     sourcePressed: "../blackbriar-components/artwork/switchuser-pressed.svg"
                     callback: function() {
-                        // TODO: Add desktop environment selection
+                        sessionManagement.switchUser();
                     }
                 }
 
