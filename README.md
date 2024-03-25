@@ -1,14 +1,15 @@
-## Graphite KDE Theme
+## Blackbriar KDE theme
 
-![1](Graphite-dark.png?raw=true)
-![2](Graphite-light.png?raw=true)
+![1](Blackbriar-preview.png)
 
-Graphite kde is a flat Design theme for KDE Plasma desktop.
+Blackbriar-KDE is a sleek design theme for KDE Plasma desktop, focusing
+on the contrast between black backgrounds and white outlines. Borrows from many
+themes (see licensing/attribution).
 
 In this repository you'll find:
 
 - Aurorae Themes
-- Kvantum Themes
+- Kvantum Themes (I don't use this.)
 - Plasma Color Schemes
 - Plasma Desktop Themes
 - Plasma Global Themes
@@ -16,15 +17,18 @@ In this repository you'll find:
 
 ## Installation
 
-OPTIONS:
+### For the main theme, use these.
 
 ```sh
-  -n, --name NAME         Specify theme name (Default: $THEME_NAME)
-  -t, --theme VARIANT     Specify theme color variant(s) [default|nord] (Default: All variants)s)
-  -c, --color VARIANT     Specify color variant(s) [standard|light|dark] (Default: All variants)s)
-  --rimless VARIANT       Specify rimless variant
+$ ./install.sh --help
 
-  -h, --help              Show help
+Usage: ./install.sh [OPTION]
+Install Blackbriar KDE into the current user HOME directory.
+If no argument is specified, install the theme.
+
+  -i, --install         Install theme (default action)
+  -u, --uninstall       Uninstall theme
+  -h, --help            Print this help message
 ```
 
 Install theme for all users
@@ -32,36 +36,24 @@ Install theme for all users
 sudo ./install.sh
 ```
 
-Install for current user
+Uninstall for current user
 ```sh
-./install.sh
+./install.sh --uninstall
 ```
 
-## Uninstall
+### For recommended additions, use these.
 
-If installed as root
-```sh
-sudo ./uninstall.sh
-```
-Or else use
-```sh
-./uninstall.sh
-```
+- Use [Blackbriar GTK theme](https://github.com/swomf/Blackbriar-gtk-theme)
+- Use [Qogir cursors](https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors)
+  and [ePapirus-Dark](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) icons.
+- [Kvantum engine](https://github.com/tsujan/Kvantum/tree/master/Kvantum)
+  provides `kvantummanager`. I don't use it; this is here for posterity.
 
-## Recommendations
-
-- For better looking please use this pack with [Kvantum engine](https://github.com/tsujan/Kvantum/tree/master/Kvantum).
-
-  Run `kvantummanager` to choose and apply **Graphite-light** theme.
-
-- For GTK app [Graphite gtk theme](https://github.com/vinceliuice/Graphite-gtk-theme).
-
-## Donate
-
-If you like my project, you can donate at:
-
-<span class="paypal"><a href="https://www.paypal.me/vinceliuice" title="Donate to this project using Paypal"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="PayPal donate button" /></a></span>
-
-## License
+## Licensing/Attribution
 
 GNU GPL v3
+
+**Assets taken from:**
+- [Graphite-gtk-theme](https://github.com/vinceliuice/Graphite-gtk-theme)
+- [Materia KDE](https://github.com/PapirusDevelopmentTeam/materia-kde)
+- Wallpaper is from an unknown source. Raise an issue if found.
