@@ -12,6 +12,7 @@ In this repository you'll find:
 - Kvantum Themes (I don't use this.)
 - Plasma Color Schemes
 - Plasma Desktop Themes
+- Plasma Desktop Layouts
 - Plasma Global Themes
 - Wallpapers
 - Icons
