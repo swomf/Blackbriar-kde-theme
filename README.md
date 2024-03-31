@@ -60,18 +60,20 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 | Cursors           | [Qogir]              | GPLv3               |
 | Login icons       | [FontAwesome]*       | CC BY 4.0           |
 | Login icons       | [Tela circle]        | ?                   |
+| SDDM examples     | [sddm-sugar-dark]    | GPLv3               |
 | Wallpaper         | [articted]           | "no commercial use" |
 
-\* The [shutdown], [reboot], [settings], and [switchuser] SVG icons were
-modified to change the color and default size.
+\*The FontAwesome icons ([1] [2] [3] [4] [5]) were modified to change color/default size.
 
 [Graphite-gtk-theme]: https://github.com/vinceliuice/Graphite-gtk-theme
 [Materia KDE]: https://github.com/PapirusDevelopmentTeam/materia-kde
 [Qogir]: https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors
 [FontAwesome]: https://fontawesome.com/license/free
 [Tela circle]: https://github.com/vinceliuice/Tela-circle-icon-theme
-[shutdown]: https://fontawesome.com/icons/power-off?f=classic&s=solid
-[reboot]: https://fontawesome.com/icons/gear?f=classic&s=solid
-[settings]: https://fontawesome.com/icons/arrow-rotate-right?f=classic&s=solid
-[switchuser]: https://fontawesome.com/icons/arrow-right-to-bracket?f=classic&s=solid
+[1]: https://fontawesome.com/icons/power-off?f=classic&s=solid
+[2]: https://fontawesome.com/icons/gear?f=classic&s=solid
+[3]: https://fontawesome.com/icons/arrow-rotate-right?f=classic&s=solid
+[4]: https://fontawesome.com/icons/arrow-right-to-bracket?f=classic&s=solid
+[5]: https://fontawesome.com/icons/user?f=classic&s=solid
+[sddm-sugar-dark]: https://github.com/MarianArlt/sddm-sugar-dark
 [articted]: https://www.behance.net/gallery/10876531/FLATzero-Wallpaper-Pack
