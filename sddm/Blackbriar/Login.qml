@@ -73,7 +73,7 @@ SessionManagementScreen {
         loginRequest(username, password);
     }
 
-    PlasmaComponents3.TextField {
+    CustomTextField {
         id: userNameInput
         font.pointSize: fontSize + 1
         Layout.fillWidth: true
@@ -83,10 +83,8 @@ SessionManagementScreen {
         focus: showUsernamePrompt && !lastUserName //if there's a username prompt it gets focus first, otherwise password does
         placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Username")
 
-        onAccepted: {
-            if (root.loginScreenUiVisible) {
-                passwordBox.forceActiveFocus()
-            }
+        Keys.onReturnPressed: {
+            passwordBox.forceActiveFocus()
         }
     }
 
