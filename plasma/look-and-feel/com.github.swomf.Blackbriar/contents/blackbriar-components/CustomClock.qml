@@ -15,7 +15,7 @@ Column {
         font.pixelSize: root.fontSize
         renderType: Text.QtRendering
         function updateTime() {
-            text = new Date().toISOString().slice(0, 10) // ISO Format
+            text = Qt.formatDateTime(new Date(), "yyyy-MM-dd")
         }
     }
 
@@ -25,7 +25,7 @@ Column {
         font.pixelSize: root.fontSize / 2
         renderType: Text.QtRendering
         function updateTime() {
-            text = new Date().toISOString().slice(11, 16); // 24-hour clock
+            text = Qt.formatDateTime(new Date(), "hh:mm");
         }
     }
 
