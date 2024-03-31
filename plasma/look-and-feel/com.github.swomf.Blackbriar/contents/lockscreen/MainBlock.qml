@@ -72,7 +72,7 @@ SessionManagementScreen {
             font.pointSize: Kirigami.Theme.defaultFont.pointSize + 1
             Layout.fillWidth: true
 
-            placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
+            // placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
             focus: true
             enabled: !authenticator.graceLocked
 
@@ -81,9 +81,9 @@ SessionManagementScreen {
             // in any other application having a focussed invisible object would be weird
             // but here we are using to wake out of screensaver mode
             // We need to explicitly disable cursor flashing to avoid unnecessary renders
-            cursorVisible: visible
+            // cursorVisible: visible
 
-            onAccepted: {
+            callback: function () {
                 if (lockScreenUiVisible) {
                     startLogin();
                 }

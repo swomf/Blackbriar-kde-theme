@@ -101,7 +101,7 @@ SessionManagementScreen {
             placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Password")
             focus: !showUsernamePrompt || lastUserName
 
-            onAccepted: {
+            callback: function() {
                 if (root.loginScreenUiVisible) {
                     startLogin();
                 }
