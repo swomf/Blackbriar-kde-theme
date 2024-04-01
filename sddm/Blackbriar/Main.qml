@@ -83,7 +83,7 @@ Item {
         id: loginScreenRoot
         anchors.fill: parent
 
-        property bool uiVisible: true
+        property bool uiVisible: false
         property bool blockUI: mainStack.depth > 1 || userListComponent.mainPasswordBox.text.length > 0 || inputPanel.keyboardActive || config.type !== "image"
 
         hoverEnabled: true
@@ -141,104 +141,39 @@ Item {
             anchors.topMargin: Kirigami.Units.smallSpacing
         }
 
-        QQC2.StackView {
+        Column {
             id: mainStack
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            property string lastUserName: userModel.lastUser
+
             height: root.height + Kirigami.Units.gridUnit * 3
+            width: parent.width
 
-            // If true (depends on the style and environment variables), hover events are always accepted
-            // and propagation stopped. This means the parent MouseArea won't get them and the UI won't be shown.
-            // Disable capturing those events while the UI is hidden to avoid that, while still passing events otherwise.
-            // One issue is that while the UI is visible, mouse activity won't keep resetting the timer, but when it
-            // finally expires, the next event should immediately set uiVisible = true again.
-            hoverEnabled: loginScreenRoot.uiVisible ? undefined : false
-
-            focus: true //StackView is an implicit focus scope, so we need to give this focus so the item inside will have it
-
-            Timer {
-                //SDDM has a bug in 0.13 where even though we set the focus on the right item within the window, the window doesn't have focus
-                //it is fixed in 6d5b36b28907b16280ff78995fef764bb0c573db which will be 0.14
-                //we need to call "window->activate()" *After* it's been shown. We can't control that in QML so we use a shoddy timer
-                //it's been this way for all Plasma 5.x without a huge problem
-                running: true
-                repeat: false
-                interval: 200
-                onTriggered: mainStack.forceActiveFocus()
+            CustomGif {
+                z: 5
+                height: 400
+                width: 400
+                anchors {
+                    bottom: parent.verticalCenter
+                    // bottomMargin: 40
+                    horizontalCenter: parent.horizontalCenter
+                }
             }
 
-            initialItem: Login {
+            Layout.alignment: Qt.AlignCenter
+
+            Login {
                 id: userListComponent
-                userListModel: userModel
-                loginScreenUiVisible: loginScreenRoot.uiVisible
-                userListCurrentIndex: userModel.lastIndex >= 0 ? userModel.lastIndex : 0
-                lastUserName: userModel.lastUser
-                showUserList: {
-                    if (!userListModel.hasOwnProperty("count")
-                        || !userListModel.hasOwnProperty("disableAvatarsThreshold")) {
-                        return false
-                    }
-
-                    if (userListModel.count === 0 ) {
-                        return false
-                    }
-
-                    if (userListModel.hasOwnProperty("containsAllUsers") && !userListModel.containsAllUsers) {
-                        return false
-                    }
-
-                    return userListModel.count <= userListModel.disableAvatarsThreshold
+                z: 5
+                // desiredSession: selectDEButton.currentIndex
+                width: parent.width / 7
+                anchors {
+                    top: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
                 }
-
-                notificationMessage: {
-                    const parts = [];
-                    if (keystateSource.data["Caps Lock"]["Locked"]) {
-                        parts.push(i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Caps Lock is on"));
-                    }
-                    if (root.notificationMessage) {
-                        parts.push(root.notificationMessage);
-                    }
-                    return parts.join(" • ");
-                }
-
-                actionItemsVisible: !inputPanel.keyboardActive
-                // actionItems: [
-                //     ActionButton {
-                //         iconSource: "system-suspend"
-                //         text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
-                //         fontSize: parseInt(config.fontSize) + 1
-                //         onClicked: sddm.suspend()
-                //         enabled: sddm.canSuspend
-                //     },
-                //     ActionButton {
-                //         iconSource: "system-reboot"
-                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
-                //         fontSize: parseInt(config.fontSize) + 1
-                //         onClicked: sddm.reboot()
-                //         enabled: sddm.canReboot
-                //     },
-                //     ActionButton {
-                //         iconSource: "system-shutdown"
-                //         text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
-                //         fontSize: parseInt(config.fontSize) + 1
-                //         onClicked: sddm.powerOff()
-                //         enabled: sddm.canPowerOff
-                //     },
-                //     ActionButton {
-                //         iconSource: "system-user-prompt"
-                //         text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "For switching to a username and password prompt", "Other…")
-                //         fontSize: parseInt(config.fontSize) + 1
-                //         onClicked: mainStack.push(userPromptComponent)
-                //         enabled: true
-                //         visible: !userListComponent.showUsernamePrompt
-                //     }]
-
-                onLoginRequest: {
-                    root.notificationMessage = ""
+                loginFunction: function(username, password) {
                     sddm.login(username, password, selectDEButton.currentIndex)
                 }
+                // loginScreenUiVisible: loginScreenRoot.uiVisible
             }
 
             Behavior on opacity {
@@ -248,66 +183,6 @@ Item {
             }
 
             readonly property real zoomFactor: 1.5
-
-            popEnter: Transition {
-                ScaleAnimator {
-                    from: mainStack.zoomFactor
-                    to: 1
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-                OpacityAnimator {
-                    from: 0
-                    to: 1
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
-
-            popExit: Transition {
-                ScaleAnimator {
-                    from: 1
-                    to: 1 / mainStack.zoomFactor
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-                OpacityAnimator {
-                    from: 1
-                    to: 0
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
-
-            pushEnter: Transition {
-                ScaleAnimator {
-                    from: 1 / mainStack.zoomFactor
-                    to: 1
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-                OpacityAnimator {
-                    from: 0
-                    to: 1
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
-
-            pushExit: Transition {
-                ScaleAnimator {
-                    from: 1
-                    to: mainStack.zoomFactor
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-                OpacityAnimator {
-                    from: 1
-                    to: 0
-                    duration: Kirigami.Units.veryLongDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
         }
 
         VirtualKeyboardLoader {
@@ -319,65 +194,6 @@ Item {
             mainStack: mainStack
             mainBlock: userListComponent
             passwordField: userListComponent.mainPasswordBox
-        }
-
-        Component {
-            id: userPromptComponent
-            Login {
-                showUsernamePrompt: true
-                notificationMessage: root.notificationMessage
-                loginScreenUiVisible: loginScreenRoot.uiVisible
-                fontSize: parseInt(config.fontSize) + 2
-
-                // using a model rather than a QObject list to avoid QTBUG-75900
-                userListModel: ListModel {
-                    ListElement {
-                        name: ""
-                        icon: ""
-                    }
-                    Component.onCompleted: {
-                        // as we can't bind inside ListElement
-                        setProperty(0, "name", i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Type in Username and Password"));
-                        setProperty(0, "icon", Qt.resolvedUrl("faces/.face.icon"))
-                    }
-                }
-
-                onLoginRequest: {
-                    root.notificationMessage = ""
-                    sddm.login(username, password, selectDEButton.currentIndex)
-                }
-
-                actionItemsVisible: !inputPanel.keyboardActive
-                actionItems: [
-                    ActionButton {
-                        iconSource: "system-suspend"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.suspend()
-                        enabled: sddm.canSuspend
-                    },
-                    ActionButton {
-                        iconSource: "system-reboot"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.reboot()
-                        enabled: sddm.canReboot
-                    },
-                    ActionButton {
-                        iconSource: "system-shutdown"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: sddm.powerOff()
-                        enabled: sddm.canPowerOff
-                    },
-                    ActionButton {
-                        iconSource: "system-user-list"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "List Users")
-                        fontSize: parseInt(config.fontSize) + 1
-                        onClicked: mainStack.pop()
-                    }
-                ]
-            }
         }
 
         DropShadow {
