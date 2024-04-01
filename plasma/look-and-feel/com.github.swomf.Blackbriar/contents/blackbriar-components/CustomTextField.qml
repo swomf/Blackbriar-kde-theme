@@ -15,8 +15,14 @@ TextField {
     height: root.font.pointSize * 6
     width: parent.width
 
-    color: "#e0e0e0"
-    placeholderTextColor: "#808080"
+    property string whiteColor: "#FFFFFF"
+    property string greyColor: "#808080"
+    property string blackColor: "#000000"
+    property string disabledColor: "#606060"
+    property bool rejected: false
+
+    color: whiteColor
+    placeholderTextColor: greyColor
     font.pointSize: 12    
     
     selectByMouse: true
@@ -33,8 +39,8 @@ TextField {
         cursorShape: Qt.IBeamCursor // makes hovering look like an I
     }
     background: Rectangle {
-        color: "#000000"
-        border.color: "#000000"
+        color: blackColor
+        border.color: blackColor
         border.width: 2
         radius: 5
     }
@@ -52,7 +58,7 @@ TextField {
             when: root.activeFocus
             PropertyChanges {
                 target: root.background
-                border.color: "#E0E0E0"
+                border.color: whiteColor
             }
         },
         State {
@@ -60,18 +66,53 @@ TextField {
             when: mouseArea.containsMouse && !(root.activeFocus)
             PropertyChanges {
                 target: root.background
-                border.color: root.placeholderTextColor
+                border.color: greyColor
             }
         },
         State {
-            name: "neither"
+            name: "unselected"
             when: !(root.activeFocus || mouseArea.containsMouse)
             PropertyChanges {
                 target: root.background
-                border.color: "#000000"
+                border.color: blackColor
             }
-        }
+        }//,
+        // State {
+        //     name: "rejected"
+        //     when: rejected
+        //     PropertyChanges {
+        //         target: root
+        //         color: disabledColor
+        //     }
+        //     PropertyChanges {
+        //         target: root.background
+        //         border.color: disabledColor
+        //     }
+        // }
     ]
+
+    function disable() {
+        root.readOnly = true
+        root.color = disabledColor
+        root.background.border.color = disabledColor
+    }
+
+    function enable(rejected) {
+        root.text = ""
+        root.color = whiteColor
+        root.readOnly = false
+
+        if (rejected) {
+            root.background.border.color = "#FF0000"
+            // var shakeAnimation = new NumberAnimation(root, "x",
+            //     NumberAnimation.Linear, 0, 5, -5, 1000, 
+            //     NumberAnimation.DeleteWhenStopped)
+            // shakeAnimation.from = root.x
+            // shakeAnimation.to = root.x - 3
+            // shakeAnimation.loops = 4
+            // shakeAnimation.running = true
+        }
+    }
 
     transitions: [
         Transition {

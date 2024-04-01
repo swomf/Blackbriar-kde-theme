@@ -74,11 +74,6 @@ Item {
         }
     }
 
-    RejectPasswordAnimation {
-        id: rejectPasswordAnimation
-        target: mainStack
-    }
-
     MouseArea {
         id: loginScreenRoot
         anchors.fill: parent
@@ -164,7 +159,7 @@ Item {
             Login {
                 id: userListComponent
                 z: 5
-                // desiredSession: selectDEButton.currentIndex
+                desiredSession: selectDEButton.currentIndex
                 width: parent.width / 7
                 anchors {
                     top: parent.verticalCenter
@@ -397,24 +392,6 @@ Item {
                     }
                 }
             }
-        }
-    }
-
-    Connections {
-        target: sddm
-        function onLoginFailed() {
-            notificationMessage = i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Login Failed")
-            footer.enabled = true
-            mainStack.enabled = true
-            userListComponent.userList.opacity = 1
-            rejectPasswordAnimation.start()
-        }
-        function onLoginSucceeded() {
-            //note SDDM will kill the greeter at some random point after this
-            //there is no certainty any transition will finish, it depends on the time it
-            //takes to complete the init
-            mainStack.opacity = 0
-            footer.opacity = 0
         }
     }
 

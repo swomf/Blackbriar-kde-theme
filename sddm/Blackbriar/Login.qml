@@ -1,12 +1,7 @@
-import org.kde.breeze.components
-
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 
-import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.kirigami 2.20 as Kirigami
 import "blackbriar-components"
 
 ColumnLayout {
@@ -16,6 +11,7 @@ ColumnLayout {
     property bool showUsernamePrompt: true
 
     property string lastUserName
+    property string desiredSession
 
     property bool loginScreenUiVisible: true
 
@@ -48,27 +44,13 @@ ColumnLayout {
      * Login has been requested with the following username and password
      * If username field is visible, it will be taken from that, otherwise from the "name" property of the currentIndex
      */
-    function startLogin() {
-
-        // footer.enabled = false
-        // mainStack.enabled = false
-        // userListComponent.userList.opacity = 0.5
-
-        // This is partly because it looks nicer, but more importantly it
-        // works round a Qt bug that can trigger if the app is closed with a
-        // TextField focused.
-        //
-        // See https://bugreports.qt.io/browse/QTBUG-55460
-        // loginButton.forceActiveFocus();
-        loginFunction(userNameInput.text, passwordBox.text);
-    }
 
     CustomTextField {
         id: userNameInput
         font.pointSize: fontSize + 1
         Layout.fillWidth: true
 
-        text: lastUserName // selectUser.currentText
+        text: selectUser.currentText
         visible: showUsernamePrompt
         focus: showUsernamePrompt && !lastUserName //if there's a username prompt it gets focus first, otherwise password does
         placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Username")
@@ -207,6 +189,7 @@ ColumnLayout {
                 // }
             }
 
+
         }
 
         Keys.onReturnPressed: {
@@ -225,7 +208,8 @@ ColumnLayout {
 
         callback: function() {
             if (root.loginScreenUiVisible) {
-                startLogin();
+                sddm.login(userNameInput.text, passwordBox.text, desiredSession)
+                passwordBox.disable()
             }
         }
 
@@ -259,12 +243,29 @@ ColumnLayout {
             }
         }
 
-        Connections {
-            target: sddm
-            function onLoginFailed() {
-                passwordBox.selectAll()
+        Component.onCompleted: {
+            if (userNameInput.text !== "") {
                 passwordBox.forceActiveFocus()
             }
+        }
+    }
+
+    Connections {
+        target: sddm
+        function onLoginFailed() {
+            // notificationMessage = i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Login Failed")
+            // footer.enabled = true
+            // rejectPasswordAnimation.start()
+            // passwordBox.background.border.color = "#FF0000"
+            passwordBox.enable(true)
+        }
+        function onLoginSucceeded() {
+            //note SDDM will kill the greeter at some random point after this
+            //there is no certainty any transition will finish, it depends on the time it
+            //takes to complete the init
+            mainStack.opacity = 0
+            footer.opacity = 0
+            passwordBox.enable(false)
         }
     }
 }
