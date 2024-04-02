@@ -11,7 +11,7 @@ Column {
 
     Label {
         id: dateLabel
-        color: root.palette.text
+        color: "#E0E0E0"
         font.pixelSize: root.fontSize
         renderType: Text.QtRendering
         function updateTime() {
@@ -21,7 +21,7 @@ Column {
 
     Label {
         id: timeLabel
-        color: root.palette.text
+        color: "#E0E0E0"
         font.pixelSize: root.fontSize / 2
         renderType: Text.QtRendering
         function updateTime() {

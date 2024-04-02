@@ -128,12 +128,32 @@ Item {
             clock: clock
         }
 
-        CustomMiniClock {
+        CustomClock {
             id: clock
-            anchors.right: parent.right
-            anchors.rightMargin: Kirigami.Units.largeSpacing
-            anchors.top: parent.top
-            anchors.topMargin: Kirigami.Units.smallSpacing
+            state: loginScreenRoot.uiVisible ? "off" : "on"
+            property Item shadow: clockShadow
+            visible: y > 0
+            anchors.left: parent.left
+            anchors.leftMargin: Kirigami.Units.largeSpacing
+            anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+        }
+
+        DropShadow {
+            id: clockShadow
+            anchors.fill: clock
+            source: clock
+            // visible: !softwareRendering
+            radius: 6
+            samples: 18
+            spread: 0.3
+            color : "black" // shadows should always be black
+            Behavior on opacity {
+                OpacityAnimator {
+                    duration: Kirigami.Units.veryLongDuration * 2
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
 
         Column {
