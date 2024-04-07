@@ -56,7 +56,7 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 
 | Resource          | Source               | License             |
 |-------------------|----------------------|---------------------|
-| Main forked theme | [Graphite-gtk-theme] | GPLv3               |
+| Main forked theme | [Graphite-kde-theme] | GPLv3               |
 | General icons     | [Materia KDE]        | GPLv3               |
 | Cursors           | [Qogir]              | GPLv3               |
 | Login icons       | [FontAwesome]*       | CC BY 4.0           |
@@ -66,7 +66,7 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 
 \*The FontAwesome icons ([1] [2] [3] [4] [5]) were modified to change color/default size.
 
-[Graphite-gtk-theme]: https://github.com/vinceliuice/Graphite-gtk-theme
+[Graphite-kde-theme]: https://github.com/vinceliuice/Graphite-kde-theme
 [Materia KDE]: https://github.com/PapirusDevelopmentTeam/materia-kde
 [Qogir]: https://github.com/vinceliuice/Qogir-icon-theme/tree/master/src/cursors
 [FontAwesome]: https://fontawesome.com/license/free
