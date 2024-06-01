@@ -2,7 +2,7 @@
 
 ![1](Blackbriar-preview.png)
 
-Blackbriar-KDE is a sleek design theme for KDE Plasma desktop, focusing
+Blackbriar-KDE is a sleek design theme for KDE Plasma desktop (QT6), focusing
 on the contrast between black backgrounds and white outlines. Borrows from many
 themes (see licensing/attribution).
 
