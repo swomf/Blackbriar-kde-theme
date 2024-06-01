@@ -78,3 +78,11 @@ GNU GPL v3 or later, with CC-BY-4.0 assets
 [5]: https://fontawesome.com/icons/user?f=classic&s=solid
 [sddm-sugar-dark]: https://github.com/MarianArlt/sddm-sugar-dark
 [articted]: https://www.behance.net/gallery/10876531/FLATzero-Wallpaper-Pack
+
+## TODO 
+- Finish SDDM theme and
+lockscreen theme
+  - add gif on top of text entry fields
+- Refactor SDDM/lockscreen code
+to be as similar as possible
+- Add QT5 support?
